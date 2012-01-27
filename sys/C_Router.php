@@ -77,12 +77,17 @@ class C_Router {
         
         // Get method
         $method = array_shift($uri);
-        if (!$this->method = $this->_method_name($method)) {
+        if (empty($method)) {
+          $this->method = 'index';
+        }
+        elseif (!$this->method = $this->_method_name($method)) {
           sys_error("Could not find method " . htmlentities($method) . " on class " . htmlentities($this->class_name));
         }
         
         // Arguments
-        $this->arguments = $uri;
+        while ($arg = array_shift($uri)) {
+          $this->arguments[] = urldecode($arg);
+        }
       }
     }
   }
@@ -94,7 +99,9 @@ class C_Router {
       $part = strtoupper(substr($part, 0, 1)) . substr($part, 1);
     }
     
-    return implode('_', $parts);
+    $class = implode('_', $parts);
+    
+    return $class;
   }
   
   protected function _method_name($string) {
@@ -104,7 +111,7 @@ class C_Router {
     }
     
     // Include the class definition
-    load_file('controllers/' . $this->class_name . CLASS_EXT);
+    load_file('controllers/' . $this->class_name . conf('class_extension'));
     
     // Check if the method exists on the class
     $methods = (array) get_class_methods($this->class_name);

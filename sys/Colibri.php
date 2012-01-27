@@ -11,7 +11,7 @@ if (!defined('SYS_PATH')) {
 function load_file($file) {
   foreach (array(SYS_PATH, APP_PATH) as $path) {
 		if (file_exists("$path/$file")) {
-			require_once "$path/$file";
+			include_once("$path/$file");
       
       return;
     }
@@ -24,6 +24,12 @@ function sys_error($message) {
   die($message);
 }
 
+load_file('conf.php');
+load_file('functions.php');
+load_file('C_Controller.php');
+load_file('C_Router.php');
+load_file('C_View.php');
+
 /**
  *
  */
@@ -33,16 +39,8 @@ class Colibri {
   
   protected $template;
   
-  public function __construct() {
-    load_file('conf.php');
-    load_file('functions.php');
-    load_file('C_Controller.php');
-    load_file('C_Router.php');
-    load_file('C_Template.php');
-    
+  public function __construct() {    
     $this->router = new C_Router();
-    
-    $this->template = new C_Template();
     
     $this->_init();
   }
@@ -51,9 +49,14 @@ class Colibri {
     $class = $this->router->get_class();
     $method = $this->router->get_method();
     $args = $this->router->get_arguments();
-    
+		
+		// Include the class definition
+    load_file('controllers/' . $class . conf('class_extension'));
+		
     $controller = new $class();
     
     call_user_func_array(array($controller, $method), $args);
+		
+		echo $controller->render();
   }
 }
