@@ -1,39 +1,101 @@
 <?php
-
 /**
+ * Colibri, the tiny PHP framework
  *
+ * Copyright (c) 2012 Wouter Admiraal (http://github.com/wadmiraal)
+ *  
+ * Licensed under the MIT license: http://opensource.org/licenses/MIT
  */
 
+/**
+ * @file
+ * Defines the C_Router class, responsible for routing the requests to the
+ * correct controllers.
+ */
+
+/**
+ * No direct access.
+ */
 if (!defined('SYS_PATH')) {
   die("You are not allowed to access this script directly !");
 }
 
 class C_Router {
   
+  /**
+   * The current, requested uri.
+   */
   protected $uri;
   
+  /**
+   * The class name of the requested controller.
+   */
   protected $class_name;
   
+  /**
+   * The method on the requested controller.
+   */
   protected $method;
   
+  /**
+   * The arguments to pass to the requested controller.
+   */
   protected $arguments;
   
+  /**
+   * Constructor...
+   */
   public function __construct() {
     $this->_get_uri();  
   }
   
+  /**
+   * Returns the requested class name.
+   *
+   * @return string
+   *        The class name.
+   */
   public function get_class() {
     return $this->class_name;
   }
   
+  /**
+   * Returns the requested method.
+   *
+   * @return string
+   *        The method name.
+   */
   public function get_method() {
     return $this->method;
   }
   
+  /**
+   * Returns the passes arguments.
+   *
+   * @return array
+   *        The arguments.
+   */
   public function get_arguments() {
     return $this->arguments;
   }
   
+  /**
+   * Parses a string for the URI and returns it.
+   *
+   * @param string $string
+   *        The class name or method.
+   *
+   * @return string
+   *        The element, ready for the URI.
+   */
+  public static function prepare_for_uri($string) {
+    return str_replace('_', '-', strtolower($string));
+  }
+  
+  /**
+   * Gets the current uri and parses it.
+   * @see _parse_uri()
+   */
   protected function _get_uri() {
     if (!empty($_SERVER['PATH_INFO'])) {
       $this->uri = $_SERVER['PATH_INFO'];
@@ -48,6 +110,10 @@ class C_Router {
     $this->_parse_uri();
   }
   
+  /**
+   * Parses the current uri and stores the class name, the method and the
+   * arguments.
+   */
   protected function _parse_uri() {
     $uri = @explode('/', $this->uri);
     
@@ -56,6 +122,7 @@ class C_Router {
     
     $this->arguments = array();
     
+    // URI is empty
     if (empty($this->uri) || empty($uri)) {
       // Get default class
       $this->class_name = conf('default_controller');
@@ -63,7 +130,8 @@ class C_Router {
       // Default method
       $this->method = 'index';
     }
-    else {      
+    else {
+      // Only one segment
       if (count($uri) == 1) {
         // Get class
         $this->class_name = $this->_class_name(array_shift($uri));
@@ -71,6 +139,7 @@ class C_Router {
         // Default method
         $this->method = 'index';
       }
+      // More than one segment
       else {
         // Get class
         $this->class_name = $this->_class_name(array_shift($uri));
@@ -84,7 +153,7 @@ class C_Router {
           sys_error("Could not find method " . htmlentities($method) . " on class " . htmlentities($this->class_name));
         }
         
-        // Arguments
+        // Get arguments and decode them from the url
         while ($arg = array_shift($uri)) {
           $this->arguments[] = urldecode($arg);
         }
@@ -92,6 +161,15 @@ class C_Router {
     }
   }
   
+  /**
+   * Parses a class name and returns it.
+   *
+   * @param string $string
+   *        The class name from the URI.
+   *
+   * @return string
+   *        The class name, CamelCased, with - replaced by _
+   */
   protected function _class_name($string) {
     $parts = explode('-', $string);
     
@@ -104,7 +182,20 @@ class C_Router {
     return $class;
   }
   
+  /**
+   * Parses the method name and checks if it exists on the class.
+   *
+   * @param string $string
+   *        The method name.
+   *
+   * @return string|false
+   *        The method name, with - replaced by _. If the method was not found
+   *        on the class, returns FALSE
+   */
   protected function _method_name($string) {
+    // Replace - with _
+    $string = str_replace('-', '_', $string);
+    
     if (strpos($string, '_') === 0) {
       // Probably a private method.
       return FALSE;

@@ -1,25 +1,62 @@
 <?php
-
 /**
+ * Colibri, the tiny PHP framework
  *
+ * Copyright (c) 2012 Wouter Admiraal (http://github.com/wadmiraal)
+ *  
+ * Licensed under the MIT license: http://opensource.org/licenses/MIT
  */
 
+/**
+ * @file
+ * Defines the C_View class. Stores variables and passes them during rendering
+ * to the template files.
+ */
+
+/**
+ * No direct access.
+ */
 if (!defined('SYS_PATH')) {
   die("You are not allowed to access this script directly !");
 }
 
 class C_View {
   
+  /**
+   * The name of the layout, without the extension.
+   */
   protected $layout;
   
+  /**
+   * The name of the view, without the extension.
+   */
   protected $view;
   
+  /**
+   * The variables that will be passed to the templates.
+   */
   protected $vars;
   
+  /**
+   * An array of javascript files to add to the layout.
+   */
   protected $scripts;
   
+  /**
+   * An array of stylesheets to add to the layout.
+   */
   protected $stylesheets;
   
+  /**
+   * Constructor...
+   *
+   * @param string $layout = 'default'
+   *        (optional ) the name of the layout, without the extension.
+   *        Defaults to 'default'.
+   * @param string $view = 'default'.
+   *        (optional) the name of the view, without the extension.
+   *        Defaults to 'default'.
+   */
   public function __construct($layout = 'default', $view = 'default') {
     $this->layout = $layout;
     
@@ -32,30 +69,74 @@ class C_View {
     $this->stylesheets = array();
   }
   
+  /**
+   * Adds a javascript file to the list.
+   *
+   * @param string $file
+   *        The path of the javascript file.
+   */
   public function add_js($file) {
     $this->scripts[] = $file;
   }
   
+  /**
+   * Adds a stylesheet to the list.
+   *
+   * @param string $file
+   *        The path of the stylesheet.
+   */
   public function add_css($file) {
     $this->stylesheets[] = $file;
   }
   
+  /**
+   * Sets the layout.
+   *
+   * @param string $layout
+   *        The name of the layout, without the file extension.
+   */
   public function layout($layout) {
     $this->layout = $layout;
   }
   
+  /**
+   * Sets the view.
+   *
+   * @param string $view
+   *        The name of the view, without the file extension.
+   */
   public function view($view) {
     $this->view = $view;
   }
   
+  /**
+   * Sets a variable value, usable in the layouts and views.
+   *
+   * @param string $name
+   *        The name of the variable.
+   * @param mixed $value
+   *        The value if the variable
+   */
   public function set($name, $value) {
     $this->vars[$name] = $value;
   }
   
+  /**
+   * Gets a variable.
+   *
+   * @param string $name
+   *        The name of the variable.
+   */
   public function get($name) {
     return isset($this->vars[$name]) ? $this->vars[$name] : NULL;
   }
   
+  /**
+   * Renders the view and the layout and returns the HTML.
+   *
+   * @return string
+   *        The rendered HTML.
+   */
   public function render() {
     // Get the vars
     $vars = $this->vars;
@@ -77,6 +158,19 @@ class C_View {
     return $full;
   }
   
+  /**
+   * Renders the requested template file and extracts the variables.
+   *
+   * @param array $vars
+   *        The variables to be extracted.
+   * @param string $template
+   *        The name of the template file, without the extension.
+   * @param string $directory
+   *        The directory where the template is located (layouts or views).
+   *
+   * @return string
+   *        The rendered HTML.
+   */
   protected function _render_template($vars, $template, $directory) {
     extract($vars, EXTR_SKIP);
     
@@ -91,6 +185,12 @@ class C_View {
     return $html;
   }
   
+  /**
+   * Renders the stylesheet list as HTML <link>s.
+   *
+   * @return string
+   *        The rendered HTML.
+   */
   protected function _render_stylesheets() {
     $html = '';
     
@@ -103,6 +203,12 @@ class C_View {
     return $html;
   }
   
+  /**
+   * Renders the javascript files list as HTML <script>s.
+   *
+   * @return string
+   *        The rendered HTML.
+   */
   protected function _render_scripts() {
     $html = '';
     
