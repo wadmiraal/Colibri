@@ -1,6 +1,8 @@
-# Tiny PHP MVC Framework
+# Colibri, the tiny PHP MVC Framework
 
 Colibri is a (really) small, but fully functional MVC framework. It's meant for small projects or quickly bootstrapping web applications.
+
+Colibri is licenced under the MIT licence.
 
 
 ## Philosophy
