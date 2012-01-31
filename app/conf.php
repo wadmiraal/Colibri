@@ -49,3 +49,24 @@ $_conf['template_extension'] = '.php';
  * The class file extension. Defaults to .php, but can be anything you want.
  */
 $_conf['class_extension'] = '.php';
+
+/**
+ * I18n settings
+ * Colibri provides built-in routing for multilingual applications. If enabled,
+ * the first parameter in the URL will be treated as the language parameter.
+ * E.g.:
+ * fr/controller/method/param1
+ * en-US/controller/method/param1
+ * 
+ * This parameter can be anything you want: Colibri enforces no standards.
+ * E.g.:
+ * en/controller/method/param1
+ * ENG/controller/method/param1
+ */
+#$_conf['i18n_enabled'] = TRUE;
+
+/**
+ * You may set a default language parameter: in case the language is absent, the
+ * default one will be used.
+ */
+#$_conf['i18n_default_language'] = 'en-GB';

@@ -66,9 +66,16 @@ class Colibri {
 	/**
 	 * Constructor...
 	 */
-  public function __construct() {    
-    $this->router = new C_Router();
-    
+  public function __construct() {
+		if (conf('i18n_enabled')) {
+			load_file('C_I18nRouter.php');
+
+			$this->router = new C_I18nRouter();
+		}
+		else {
+			$this->router = new C_Router();
+		}
+		
     $this->_init();
   }
   

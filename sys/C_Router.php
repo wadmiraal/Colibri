@@ -93,6 +93,30 @@ class C_Router {
   }
   
   /**
+   * Returns the requested URI segment.
+   *
+   * @param int $index
+   *        The index if the URI segment.
+   * @param string|bool $store = FALSE
+   *        (optional) if set, will store the passed URI in a static variable.
+   *
+   * @return string
+   *        The requested URI segment
+   */
+  public static function segment($index, $store = FALSE) {
+    static $segments = array();
+    
+    if ($store) {
+      $segments = (array) @explode('/', $store);
+      
+      array_shift($segments);
+    }
+    else {
+      return isset($segments[$index]) ? $segments[$index] : NULL;
+    }
+  }
+  
+  /**
    * Gets the current uri and parses it.
    * @see _parse_uri()
    */
@@ -107,6 +131,9 @@ class C_Router {
       $this->uri = '';
     }
     
+    // Store the segments for future use and convenience.
+    self::segment(NULL, $this->uri);
+    
     $this->_parse_uri();
   }
   
@@ -115,7 +142,7 @@ class C_Router {
    * arguments.
    */
   protected function _parse_uri() {
-    $uri = @explode('/', $this->uri);
+    $uri = (array) @explode('/', $this->uri);
     
     // Remove the first empty element
     array_shift($uri);
