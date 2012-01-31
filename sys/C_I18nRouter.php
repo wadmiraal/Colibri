@@ -48,7 +48,7 @@ class C_I18nRouter extends C_Router {
     
     // If the file exists, we're dealing with a controller. Use the default
     // language.
-    if (file_exists(APP_PATH . 'controllers/' . $lan . conf('class_extension'))) {
+    if (file_exists(APP_PATH . '/controllers/' . $lan . conf('class_extension'))) {
       $this->language = conf('i18n_default_language');
     }
     else {

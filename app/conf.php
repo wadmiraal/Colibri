@@ -37,7 +37,7 @@ $_conf['default_controller'] = 'Home';
  * The base path for your application. If at the root of the domain, just put
  * a single forward slash. Should always end with a slash !
  */
-$_conf['base_path'] = '/Colibri/web/';
+$_conf['base_path'] = '/';
 
 /**
  * The template file extension. Template files (views) are just HTML with PHP

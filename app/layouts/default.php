@@ -3,16 +3,37 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   
-  <title><?php echo $my_head_title; ?></title>
+  <title><?php echo $head_title; ?></title>
   
   <?php echo $stylesheets; // not required, can be ignored ?>
   
   <?php echo $scripts; // not required, can be ignored ?>
+  
+  <style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: url(http://wadmiraal.net/colibri/background.png) center top repeat-y #dbd2c6;
+  }
+  
+  #main {
+    width: 374px;
+    margin: 50px auto;
+  }
+  
+  #logo {
+    text-align: center;
+  }
+  
+  #message {
+    margin-top: 20px;
+    height: 192px;
+    background: url(http://wadmiraal.net/colibri/message.png) left top no-repeat;
+  }
+  </style>
 </head>
 <body>
-  <div id="main">
-    <h1><?php echo $my_title; ?></h1>
-    
+  <div id="main">    
     <?php echo $content; // required ?>
   </div>
 </body>

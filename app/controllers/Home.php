@@ -1,8 +1,16 @@
 <?php
 
+/**
+ * This is an example class of a controller in Colibri. You can safely delete
+ * this class or modify it.
+ */
+
 class Home extends C_Controller {
   
   public function __construct() {
+    // Do stuff necessary for all methods
+    // ...
+    
     // If you override the constructor, do not forget to call the parent
     // constructor as well !
     parent::__construct();
@@ -11,26 +19,27 @@ class Home extends C_Controller {
   public function index() {
     // Could define another layout if needed. Defaults to 'default'. Do not
     // add the extension.
-    $this->view->layout('default');
+    // $this->view->layout('default');
     
     // Could define another view. Defaults to 'default'. This is usually
     // different per controller. Do not add the extension.
-    $this->view->view('default');
+    // $this->view->view('default');
     
     // Define any variables you want for the views and layouts. These variables
     // are shared between the layout and the views, except for:
-    //  - content: in the layout, will be the entire view.
+    //  - content: in the layout, will be the rendered view
     //  - stylesheets
     //  - scripts
     // You can set these variables for your views however. The values will just
     // be different for the layouts
-    $this->view->set('my_head_title', 'Home page | my site');
+    $this->view->set('head_title', "You've successfully installed Colibri !");
     
     $this->view->set('my_title', 'Home page');
     
     $this->view->set('my_custom_var', 'This is some default text.');
     
-    // This variable will be available in a view, but not in a layout
+    // This variable will be available in a view, but not in a layout. Notice
+    // the url() helper function
     $this->view->set('content', '<p><strong>This is some more text and <a href="' . url('Home', 'hello', array('world', '<script>alert("evil !")</script>')) . '">a link</a>.</strong></p>');
     
     // Can add stylesheets and scripts easily
@@ -38,8 +47,8 @@ class Home extends C_Controller {
     $this->view->add_css('css/my-file.css');
   }
   
-  public function hello($name, $xss_script_that_you_dont_want_in_your_content) {
-    $this->view->set('my_head_title', 'Hello page | my site');
+  public function hello($name = '', $xss_script_that_you_dont_want_in_your_content = '') {
+    $this->view->set('head_title', "You've successfully installed Colibri !");
     
     $this->view->set('my_title', 'Hello page');
     
