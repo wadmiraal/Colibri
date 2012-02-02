@@ -16,6 +16,10 @@ PHP comes bundled with a great, efficient and easy template-engine: PHP itself. 
 
 For convenience, 2 variables will also be available for the *layouts*: `$stylesheets` and `$scripts`. These will be populated by calling the `$view->add_css()` or `$view->add_js()` methods, but this is not mandatory.
 
+#### AJAX ?
+
+A view can also be rendered as JSON. By calling `$view->json()`, the template engine will skip the template parsing and directly output all variables as a JSON string. This is super-easy and very usefull for AJAX heavy applications.
+
 
 ### Models
 
@@ -62,11 +66,6 @@ Use the `app/conf.php` file to configure your i18n settings. It's as easy as set
 Colibri is SEO-friendly. The default .htaccess file provides URL rewriting instructions for Apache servers to remove the `index.php` from the request (`controller/method/param1` instead of `index.php/controller/method/param1`).
 
 All class names and methods are made *URI-friendly* by replacing underscores with hyphens and lowercasing all segments (except the language parameter - see above).
-
-
-### AJAX ?
-
-A view can also be rendered as JSON. By calling `$view->json()`, the template engine will skip the template parsing and directly output all variables as a JSON string. This is super-easy and very usefull for AJAX heavy applications.
 
 
 #### Configuration
