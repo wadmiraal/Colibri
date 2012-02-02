@@ -40,21 +40,22 @@ class Home extends C_Controller {
     
     // This variable will be available in a view, but not in a layout. Notice
     // the url() helper function
-    $this->view->set('content', '<p><strong>This is some more text and <a href="' . url('Home', 'hello', array('world', '<script>alert("evil !")</script>')) . '">a link</a>.</strong></p>');
+    $this->view->set('content', '<p><strong>This is some more text and <a href="' . url('Home', 'json', array('world', '<script>alert("evil !")</script>')) . '">a link</a>.</strong></p>');
     
     // Can add stylesheets and scripts easily
     $this->view->add_js('js/my-file.js');
     $this->view->add_css('css/my-file.css');
   }
   
-  public function hello($name = '', $xss_script_that_you_dont_want_in_your_content = '') {
-    $this->view->set('head_title', "You've successfully installed Colibri !");
+  public function json($name = '') {
+    // Set the render mode to JSON
+    $this->view->json();
     
-    $this->view->set('my_title', 'Hello page');
+    $this->view->set('look_mum', "I do JSON !");
     
-    $this->view->set('my_custom_var', $name);
+    $this->view->set('my_title', 'JSON page');
     
     // Careful ! URL params are not sanitized ! That's your job !
-    $this->view->set('content', $xss_script_that_you_dont_want_in_your_content);
+    $this->view->set('my_url_param', $name);
   }
 }

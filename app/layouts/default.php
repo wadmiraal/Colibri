@@ -21,6 +21,8 @@
     margin: 50px auto;
   }
   
+  a img { border: 0; }
+  
   #logo {
     text-align: center;
   }

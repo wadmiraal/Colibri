@@ -48,6 +48,16 @@ class C_View {
   protected $stylesheets;
   
   /**
+   * A flag telling the C_View to render the vars to a JSON string.
+   */
+  protected $to_json;
+  
+  /**
+   * An array of headers to send to the browser.
+   */
+  protected $headers;
+  
+  /**
    * Constructor...
    *
    * @param string $layout = 'default'
@@ -67,6 +77,10 @@ class C_View {
     $this->scripts = array();
     
     $this->stylesheets = array();
+    
+    $this->to_json = FALSE;
+    
+    $this->headers = array('Content-type' => 'text/html');
   }
   
   /**
@@ -132,30 +146,70 @@ class C_View {
   }
   
   /**
+   * Sets the render mode to JSON.
+   */
+  public function json() {
+    $this->set_header('Content-type', 'application/json');
+    
+    $this->to_json = TRUE;
+  }
+  
+  /**
+   * Sets a header.
+   *
+   * @param string $header
+   *        The header (e.g.: 'Content-type').
+   * @param string $value
+   *        The header value (e.g.: 'text/html').
+   */
+  public function set_header($header, $value) {
+    $this->headers[$header] = $value;
+  }
+  
+  /**
+   * Gets all the headers set for this view.
+   *
+   * @return array
+   *        The array of headers.
+   */
+  public function get_headers() {
+    return $this->headers;
+  }
+  
+  /**
    * Renders the view and the layout and returns the HTML.
    *
    * @return string
    *        The rendered HTML.
    */
   public function render() {
-    // Get the vars
-    $vars = $this->vars;
+    foreach ($this->headers as $header => $value) {
+      header("$header: $value");
+    }
     
-    // First render the view
-    $view = $this->_render_template($vars, $this->view, 'views');
-    
-    // Make sure we get them all again: PHP 5.3 passes variables be reference
-    $vars = $this->vars;
-    
-    // Add/change some defaults
-    $vars['content']     = $view;
-    $vars['stylesheets'] = $this->_render_stylesheets();
-    $vars['scripts']     = $this->_render_scripts();
-    
-    // Second, render the layout
-    $full = $this->_render_template($vars, $this->layout, 'layouts');
-    
-    return $full;
+    if ($this->to_json) {      
+      return json_encode($this->vars);
+    }
+    else {      
+      // Get the vars
+      $vars = $this->vars;
+      
+      // First render the view
+      $view = $this->_render_template($vars, $this->view, 'views');
+      
+      // Make sure we get them all again: PHP 5.3 passes variables be reference
+      $vars = $this->vars;
+      
+      // Add/change some defaults
+      $vars['content']     = $view;
+      $vars['stylesheets'] = $this->_render_stylesheets();
+      $vars['scripts']     = $this->_render_scripts();
+      
+      // Second, render the layout
+      $full = $this->_render_template($vars, $this->layout, 'layouts');
+      
+      return $full;
+    }
   }
   
   /**
