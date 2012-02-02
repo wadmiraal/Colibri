@@ -64,6 +64,11 @@ Colibri is SEO-friendly. The default .htaccess file provides URL rewriting instr
 All class names and methods are made *URI-friendly* by replacing underscores with hyphens and lowercasing all segments (except the language parameter - see above).
 
 
+### AJAX ?
+
+A view can also be rendered as JSON. By calling `$view->json()`, the template engine will skip the template parsing and directly output all variables as a JSON string. This is super-easy and very usefull for AJAX heavy applications.
+
+
 #### Configuration
 
 Configuration directives are found in `app/conf.php` and are pretty self-explainatory.
