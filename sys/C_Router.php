@@ -188,9 +188,16 @@ class C_Router {
         elseif (!$this->method = $this->_method_name($method)) {
           sys_error("Could not find method " . htmlentities($method) . " on class " . htmlentities($this->class_name));
           
-          $this->class_name = 'C_Error';
+          if ($error_class = conf('404_handler')) {
+            $this->class_name = $error_class;
+            
+            $this->method = 'index';
+          }
+          else {
+            $this->class_name = 'C_Error';
           
-          $this->method = 'error404';
+            $this->method = 'error404';
+          }
         }
         
         // Get arguments and decode them from the url

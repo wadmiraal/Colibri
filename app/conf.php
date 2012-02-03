@@ -53,7 +53,7 @@ $_conf['class_extension'] = '.php';
 /**
  * 404 controller. By default, handled by Colibri itself.
  */
-#$_conf['404_handler'] = 'My_Error_Controller';
+#$_conf['404_handler'] = 'My_Error_404';
 
 /**
  * I18n settings

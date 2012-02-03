@@ -110,13 +110,22 @@ class Colibri {
 		// Include the class definition
     if ($class == 'C_Error' || !load_file('controllers/' . $class . conf('class_extension'))) {
 			// Get the error handler and generate a 404 error
-			load_file('C_Error.php', TRUE);
+			$error_class = conf('404_handler');
 			
-			if ($class != 'C_Error') {				
-				$method = 'error404';
+			if ($error_class && load_file('controllers/' . $error_class . conf('class_extension'))) {
+				$class = $error_class;
+				
+				$method = 'index';
 			}
-			
-			$class = 'C_Error';
+			else {
+				load_file('C_Error.php', TRUE);
+				
+				if ($class != 'C_Error') {				
+					$method = 'error404';
+				}
+				
+				$class = 'C_Error';
+			}
 		}
 		
     $controller = new $class();
