@@ -24,17 +24,22 @@ if (!defined('SYS_PATH')) {
  *
  * @param string $file
  * 				The name if the file to include.
+ * @param bool $kill = FALSE
+ * 				(optional) flag setting wether to kill the application. If TRUE, will
+ * 				route to an HTTP 400 error page.
  */
-function load_file($file) {
+function load_file($file, $kill = FALSE) {
   foreach (array(SYS_PATH, APP_PATH) as $path) {
 		if (file_exists("$path/$file")) {
 			include_once("$path/$file");
       
-      return;
+      return TRUE;
     }
 	}
   
-  sys_error("Could not load file: " . htmlentities($file));
+  sys_error("Could not load file: " . htmlentities($file), $kill);
+	
+	return FALSE;
 }
 
 /**
@@ -42,9 +47,24 @@ function load_file($file) {
  *
  * @param string $message
  * 				The error message.
+ * @param bool $kill = FALSE
+ * 				(optional) flag setting wether to kill the application. If TRUE, will
+ * 				route to an HTTP 400 error page. 
  */
-function sys_error($message) {
-  die($message);
+function sys_error($message, $kill = FALSE) {
+  error_log($message);
+	
+	if ($kill) {
+		try {
+			// Prevent a redirection loop
+			if (segment(0) != '400') {
+				C_Router::kill();
+			}
+		}
+		catch(ErrorException $e) {
+			die("Colibri encountered an unrecoverable error !");
+		}
+	}
 }
 
 /**
@@ -88,7 +108,16 @@ class Colibri {
     $args   = $this->router->get_arguments();
 		
 		// Include the class definition
-    load_file('controllers/' . $class . conf('class_extension'));
+    if ($class == 'C_Error' || !load_file('controllers/' . $class . conf('class_extension'))) {
+			// Get the error handler and generate a 404 error
+			load_file('C_Error.php', TRUE);
+			
+			if ($class != 'C_Error') {				
+				$method = 'error404';
+			}
+			
+			$class = 'C_Error';
+		}
 		
     $controller = new $class();
     

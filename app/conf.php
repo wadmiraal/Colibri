@@ -35,7 +35,7 @@ $_conf['default_controller'] = 'Home';
 
 /**
  * The base path for your application. If at the root of the domain, just put
- * a single forward slash. Should always end with a slash !
+ * a single forward slash. Should always start and end with a slash !
  */
 $_conf['base_path'] = '/';
 
@@ -49,6 +49,11 @@ $_conf['template_extension'] = '.php';
  * The class file extension. Defaults to .php, but can be anything you want.
  */
 $_conf['class_extension'] = '.php';
+
+/**
+ * 404 controller. By default, handled by Colibri itself.
+ */
+#$_conf['404_handler'] = 'My_Error_Controller';
 
 /**
  * I18n settings

@@ -28,9 +28,19 @@ class C_View {
   protected $layout;
   
   /**
+   * The directory where the layout is located.
+   */
+  protected $layout_directory;
+  
+  /**
    * The name of the view, without the extension.
    */
   protected $view;
+  
+  /**
+   * The directory where the view is located.
+   */
+  protected $view_directory;
   
   /**
    * The variables that will be passed to the templates.
@@ -70,7 +80,11 @@ class C_View {
   public function __construct($layout = 'default', $view = 'default') {
     $this->layout = $layout;
     
+    $this->layout_directory = APP_PATH . '/layouts/';
+    
     $this->view = $view;
+    
+    $this->view_directory = APP_PATH . '/views/';
     
     $this->vars = array();
     
@@ -108,9 +122,16 @@ class C_View {
    *
    * @param string $layout
    *        The name of the layout, without the file extension.
+   * @param string $directory = NULL
+   *        (optional) the directory where the view is located. Defaults to
+   *        APP_PATH . '/layouts/'
    */
-  public function layout($layout) {
+  public function layout($layout, $directory = NULL) {
     $this->layout = $layout;
+    
+    if (!empty($directory)) {
+      $this->layout_directory = $directory;
+    }
   }
   
   /**
@@ -118,9 +139,16 @@ class C_View {
    *
    * @param string $view
    *        The name of the view, without the file extension.
+   * @param string $directory = NULL
+   *        (optional) the directory where the view is located. Defaults to
+   *        APP_PATH . '/views/'
    */
-  public function view($view) {
+  public function view($view, $directory = NULL) {
     $this->view = $view;
+    
+    if (!empty($directory)) {
+      $this->view_directory = $directory;
+    }
   }
   
   /**
@@ -190,25 +218,30 @@ class C_View {
     if ($this->to_json) {      
       return json_encode($this->vars);
     }
-    else {      
-      // Get the vars
-      $vars = $this->vars;
-      
-      // First render the view
-      $view = $this->_render_template($vars, $this->view, 'views');
-      
-      // Make sure we get them all again: PHP 5.3 passes variables be reference
-      $vars = $this->vars;
-      
-      // Add/change some defaults
-      $vars['content']     = $view;
-      $vars['stylesheets'] = $this->_render_stylesheets();
-      $vars['scripts']     = $this->_render_scripts();
-      
-      // Second, render the layout
-      $full = $this->_render_template($vars, $this->layout, 'layouts');
-      
-      return $full;
+    else {
+      try {
+        // Get the vars
+        $vars = $this->vars;
+        
+        // First render the view
+        $view = $this->_render_template($vars, $this->view, $this->view_directory);
+        
+        // Make sure we get them all again: PHP 5.3 passes variables be reference
+        $vars = $this->vars;
+        
+        // Add/change some defaults
+        $vars['content']     = $view;
+        $vars['stylesheets'] = $this->_render_stylesheets();
+        $vars['scripts']     = $this->_render_scripts();
+        
+        // Second, render the layout
+        $full = $this->_render_template($vars, $this->layout, $this->layout_directory);
+        
+        return $full;
+      }
+      catch (ErrorException $e) {
+        sys_error("Could not parse the templates !", TRUE);
+      }
     }
   }
   
@@ -230,7 +263,7 @@ class C_View {
     
     ob_start();
     
-    require_once(APP_PATH . '/' . $directory . '/' . $template . conf('template_extension'));
+    require_once($directory . $template . conf('template_extension'));
     
     $html = ob_get_contents();
     

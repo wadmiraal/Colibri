@@ -117,6 +117,15 @@ class C_Router {
   }
   
   /**
+   * Kills the application and redirects to the 400 page.
+   */
+  public static function kill() {
+    header('Location: ' . conf('base_path') . '400');
+    
+    exit();
+  }
+  
+  /**
    * Gets the current uri and parses it.
    * @see _parse_uri()
    */
@@ -178,12 +187,23 @@ class C_Router {
         }
         elseif (!$this->method = $this->_method_name($method)) {
           sys_error("Could not find method " . htmlentities($method) . " on class " . htmlentities($this->class_name));
+          
+          $this->class_name = 'C_Error';
+          
+          $this->method = 'error404';
         }
         
         // Get arguments and decode them from the url
         while ($arg = array_shift($uri)) {
           $this->arguments[] = urldecode($arg);
         }
+      }
+      
+      // Make sure we capture 400 errors
+      if ($this->class_name == '400') {
+        $this->class_name = 'C_Error';
+        
+        $this->method = 'error400';
       }
     }
   }
@@ -229,10 +249,12 @@ class C_Router {
     }
     
     // Include the class definition
-    load_file('controllers/' . $this->class_name . conf('class_extension'));
+    if (!load_file('controllers/' . $this->class_name . conf('class_extension'))) {
+      return FALSE;
+    }
     
     // Check if the method exists on the class
-    $methods = (array) get_class_methods($this->class_name);
+    $methods = (array) @get_class_methods($this->class_name);
     
     if (!empty($methods) && in_array($string, $methods)) {
       return $string;
