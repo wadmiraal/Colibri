@@ -87,6 +87,13 @@ class Colibri {
 	 * Constructor...
 	 */
   public function __construct() {
+		// Autoload
+		$autoload = conf('autoload');
+		
+		foreach($autoload as $file) {
+			load_file($file, TRUE);	
+		}
+		
 		if (conf('i18n_enabled')) {
 			load_file('C_I18nRouter.php');
 
@@ -102,7 +109,7 @@ class Colibri {
 	/**
 	 * Initialize the application.
 	 */
-  protected function _init() {
+  protected function _init() {		
     $class  = $this->router->get_class();
     $method = $this->router->get_method();
     $args   = $this->router->get_arguments();

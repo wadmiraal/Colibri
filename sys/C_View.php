@@ -95,6 +95,9 @@ class C_View {
     $this->to_json = FALSE;
     
     $this->headers = array('Content-type' => 'text/html');
+    
+    // Add base path var
+    $this->set('base_path', conf('base_path'));
   }
   
   /**

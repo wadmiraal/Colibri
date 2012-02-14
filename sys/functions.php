@@ -81,6 +81,20 @@ function url($controller, $method = 'index', $arguments = array(), $language = N
 }
 
 /**
+ * Redirects to the passed controller.
+ * Exits the application and uses a 301 redirect to the correct URI.
+ *
+ * @see url() for more info about the function parameters
+ */
+function go_to($controller, $method = NULL, $arguments = NULL, $language = NULL) {
+  $url = url($controller, $method, $arguments, $language);
+  
+  header('Location:' . $url);
+  
+  exit();
+}
+
+/**
  * Returns the requested URI segments.
  * In case of i18n enabled applications, the language parameter is omitted.
  * Use the language() function to retrieve the current language.

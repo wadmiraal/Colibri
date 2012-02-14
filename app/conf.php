@@ -51,6 +51,11 @@ $_conf['template_extension'] = '.php';
 $_conf['class_extension'] = '.php';
 
 /**
+ * Autoload all files from this array at every request.
+ */
+#$_conf['autoload'] = array('path/to/my/File.php');
+
+/**
  * 404 controller. By default, handled by Colibri itself.
  */
 #$_conf['404_handler'] = 'My_Error_404';
