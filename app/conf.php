@@ -34,7 +34,7 @@ $_conf = array();
 $_conf['default_controller'] = 'Home';
 
 /**
- * The directories where all controllers, views and layouts are stored. Musr
+ * The directories where all controllers, views and layouts are stored. Must
  * end with a slash !
  */
 $_conf['dir_controllers'] = '../app/controllers/';

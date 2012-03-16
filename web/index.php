@@ -14,7 +14,7 @@
 
 /**
  * The path to the Colibri sys folder. This contains the Colibri core. Must
- * end with a slash.
+ * end with a slash !
  */
 define('SYS_PATH', '../sys/');
 
