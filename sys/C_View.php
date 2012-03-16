@@ -80,11 +80,11 @@ class C_View {
   public function __construct($layout = 'default', $view = 'default') {
     $this->layout = $layout;
     
-    $this->layout_directory = APP_PATH . '/layouts/';
+    $this->layout_directory = conf('dir_layouts');
     
     $this->view = $view;
     
-    $this->view_directory = APP_PATH . '/views/';
+    $this->view_directory = conf('dir_views');
     
     $this->vars = array();
     
@@ -233,7 +233,7 @@ class C_View {
         $vars = $this->vars;
         
         // Add/change some defaults
-        $vars['content']     = $view;
+        $vars['view']        = $view;
         $vars['stylesheets'] = $this->_render_stylesheets();
         $vars['scripts']     = $this->_render_scripts();
         

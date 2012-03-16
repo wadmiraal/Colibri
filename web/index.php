@@ -9,27 +9,21 @@
 
 /**
  * @file
- * Defines the paths for the sys and app folders.
  * Starts up Colibri.
  */
 
 /**
- * The path to the Colibri sys folder. This contains the Colibri core
+ * The path to the Colibri sys folder. This contains the Colibri core. Must
+ * end with a slash.
  */
-define('SYS_PATH', '../sys');
+define('SYS_PATH', '../sys/');
 
 /**
- * The path to the app folder. This contains the application logic and
- * configuration files.
+ * Include Colibri.
  */
-define('APP_PATH', '../app');
-
-/**
- * Include Colibri
- */
-require SYS_PATH . '/Colibri.php';
+require SYS_PATH . 'Colibri.php';
 
 /**
  * And away we go !
  */
-$colibri = new Colibri();
+$colibri = new Colibri('../app/conf.php');

@@ -256,7 +256,7 @@ class C_Router {
     }
     
     // Include the class definition
-    if (!load_file('controllers/' . $this->class_name . conf('class_extension'))) {
+    if (!load_file(conf('dir_controllers') . $this->class_name . conf('class_extension'))) {
       return FALSE;
     }
     

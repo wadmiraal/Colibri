@@ -34,16 +34,26 @@ $_conf = array();
 $_conf['default_controller'] = 'Home';
 
 /**
- * The base path for your application. If at the root of the domain, just put
- * a single forward slash. Should always start and end with a slash !
+ * The directories where all controllers, views and layouts are stored. Musr
+ * end with a slash !
  */
-$_conf['base_path'] = '/';
+$_conf['dir_controllers'] = '../app/controllers/';
+$_conf['dir_views']       = '../app/views/';
+$_conf['dir_layouts']     = '../app/layouts/';
 
 /**
- * The template file extension. Template files (views) are just HTML with PHP
- * code. You can use any extension you want.
+ * The base path for your application. Defaults to the path to the index.php file.
+ * Can be overriden. If at the root of the domain, just put a single forward slash.
+ * Should always start and end with a slash ! For performance, it's better to
+ * hard code a value here instead of the default str_replace() method.
  */
-$_conf['template_extension'] = '.php';
+$_conf['base_path'] = str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
+
+/**
+ * The template file extension. Template files (views and layouts) are just HTML
+ * with PHP code. You can use any extension you want.
+ */
+$_conf['template_extension'] = '.phtml';
 
 /**
  * The class file extension. Defaults to .php, but can be anything you want.

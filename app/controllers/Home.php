@@ -19,15 +19,16 @@ class Home extends C_Controller {
   public function index() {
     // Could define another layout if needed. Defaults to 'default'. Do not
     // add the extension.
-    // $this->view->layout('default');
+    $this->view->layout('default');
     
     // Could define another view. Defaults to 'default'. This is usually
-    // different per controller. Do not add the extension.
-    // $this->view->view('default');
+    // different per controller. Do not add the extension. You can add a directory
+    // structure if you need to
+    $this->view->view('my_dir/my_view');
     
     // Define any variables you want for the views and layouts. These variables
     // are shared between the layout and the views, except for:
-    //  - content: in the layout, will be the rendered view
+    //  - view: in the layout, will be the rendered view
     //  - stylesheets
     //  - scripts
     // You can set these variables for your views however. The values will just
@@ -40,14 +41,14 @@ class Home extends C_Controller {
     
     // This variable will be available in a view, but not in a layout. Notice
     // the url() helper function
-    $this->view->set('content', '<p><strong>This is some more text and <a href="' . url('Home', 'json', array('world', '<script>alert("evil !")</script>')) . '">a link</a>.</strong></p>');
+    $this->view->set('view', '<p><strong>This is some more text and <a href="' . url('Home', 'json_page', array('world', '<script>alert("evil !")</script>')) . '">a link</a>.</strong></p>');
     
     // Can add stylesheets and scripts easily
     $this->view->add_js('js/my-file.js');
     $this->view->add_css('css/my-file.css');
   }
   
-  public function json($name = '') {
+  public function json_page($name = '') {
     // Set the render mode to JSON
     $this->view->json();
     

@@ -29,9 +29,9 @@ if (!defined('SYS_PATH')) {
  * 				route to an HTTP 400 error page.
  */
 function load_file($file, $kill = FALSE) {
-  foreach (array(SYS_PATH, APP_PATH) as $path) {
-		if (file_exists("$path/$file")) {
-			include_once("$path/$file");
+  foreach (array(SYS_PATH, '') as $path) {
+		if (file_exists("$path$file")) {
+			include_once("$path$file");
       
       return TRUE;
     }
@@ -70,7 +70,6 @@ function sys_error($message, $kill = FALSE) {
 /**
  * Load the core files.
  */
-load_file('conf.php');
 load_file('functions.php');
 load_file('C_Controller.php');
 load_file('C_Router.php');
@@ -86,9 +85,12 @@ class Colibri {
 	/**
 	 * Constructor...
 	 */
-  public function __construct() {
+  public function __construct($conf_path) {
+		// Include configuration file
+		require_once($conf_path);
+		
 		// Autoload
-		$autoload = conf('autoload');
+		$autoload = (array) conf('autoload');
 		
 		foreach($autoload as $file) {
 			load_file($file, TRUE);	
@@ -115,11 +117,11 @@ class Colibri {
     $args   = $this->router->get_arguments();
 		
 		// Include the class definition
-    if ($class == 'C_Error' || !load_file('controllers/' . $class . conf('class_extension'))) {
+    if ($class == 'C_Error' || !load_file(conf('dir_controllers') . $class . conf('class_extension'))) {
 			// Get the error handler and generate a 404 error
 			$error_class = conf('404_handler');
 			
-			if ($error_class && load_file('controllers/' . $error_class . conf('class_extension'))) {
+			if ($error_class && load_file(conf('dir_controllers') . $error_class . conf('class_extension'))) {
 				$class = $error_class;
 				
 				$method = 'index';
