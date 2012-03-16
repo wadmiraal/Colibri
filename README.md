@@ -14,7 +14,7 @@ Colibri makes no assumption about your workflow, nor does it restrict you in any
 
 ### Directory structure
 
-The Colibri core is located in the `sys` folder. The `web` and `app` folders are just examples and are not mandatory. The only thing you need to use Colibri is to set the `SYS_PATH` constant to point to the `sys` folder (you can rename this folder if you want), include the `Colibri.php` file and pass the path to the `conf.php` file to the `Colibri()` constructor. After that, you're good to code away !
+The Colibri core is located in the `sys` folder. The `web` and `app` folders are just examples and are not mandatory. The only thing you need to use Colibri is to a `SYS_PATH` constant to point to the `sys` folder (you can rename this folder if you want), include the `Colibri.php` file and pass the path to the `conf.php` file to the `Colibri()` constructor. After that, you're good to code away !
 
 
 ### Template engine
@@ -23,11 +23,8 @@ PHP comes bundled with a great, efficient and easy template-engine: PHP itself. 
 
 Views and layouts are simply PHP files with HTML. You can output any variables you want (iow: name the variables as you see fit in each file).
 
-<<<<<<< Updated upstream
-For convenience, 3 variables will also be available for the *layouts*: `$stylesheets`, `$scripts` and `$base_path`. `$stylesheets` and `$scripts` will be populated by calling the `$view->add_css()` or `$view->add_js()` methods, but this is not mandatory.
-=======
 For convenience, 3 extra variables will be available for the *layouts*: `$stylesheets`, `$scripts` and `$base_path`. `$stylesheets` and `$scripts` will be populated by calling the `$view->add_css()` or `$view->add_js()` methods in controllers, but this is not mandatory.
->>>>>>> Stashed changes
+
 
 #### AJAX ?
 
