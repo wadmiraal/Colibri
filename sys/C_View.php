@@ -78,11 +78,11 @@ class C_View {
    *        Defaults to 'default'.
    */
   public function __construct($layout = 'default', $view = 'default') {
-    $this->layout = $layout;
+    $this->layout = $layout . conf('template_extension');
     
     $this->layout_directory = conf('dir_layouts');
     
-    $this->view = $view;
+    $this->view = $view . conf('template_extension');
     
     $this->view_directory = conf('dir_views');
     
