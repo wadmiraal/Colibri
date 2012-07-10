@@ -15,7 +15,7 @@
 /**
  * No direct access.
  */
-if (!defined('SYS_PATH')) {
+if (!defined('COLIBRI_SYS_PATH')) {
   die("You are not allowed to access this script directly !");
 }
 
@@ -29,7 +29,7 @@ if (!defined('SYS_PATH')) {
  * 				route to an HTTP 400 error page.
  */
 function load_file($file, $kill = FALSE) {
-  foreach (array(SYS_PATH, '') as $path) {
+  foreach (array(COLIBRI_SYS_PATH, '') as $path) {
 		if (file_exists("$path$file")) {
 			include_once("$path$file");
       

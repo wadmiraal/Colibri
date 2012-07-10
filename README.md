@@ -14,7 +14,7 @@ Colibri makes no assumption about your workflow, nor does it restrict you in any
 
 ### Directory structure
 
-The Colibri core is located in the `sys` folder. The `web` and `app` folders are just examples and are not mandatory. The only thing you need to use Colibri is to a `SYS_PATH` constant to point to the `sys` folder (you can rename this folder if you want), include the `Colibri.php` file and pass the path to the `conf.php` file to the `Colibri()` constructor. After that, you're good to code away !
+The Colibri core is located in the `sys` folder. The `web` and `app` folders are just examples and are not mandatory. The only thing you need to use Colibri is to a `COLIBRI_SYS_PATH` constant to point to the `sys` folder (you can rename this folder if you want), include the `Colibri.php` file and pass the path to the `conf.php` file to the `Colibri()` constructor. After that, you're good to code away !
 
 
 ### Template engine
@@ -84,4 +84,4 @@ All class names and methods are made *URI-friendly* by replacing underscores wit
 
 Configuration directives are found in `app/conf.php` and are pretty self-explainatory. As mentioned in **Directory structure** above, you are not bound to the provided directory structure. You can use any structure you want, just as long as all Colibri core files are located in the same directory.
 
-In the provided directory structure, the `web` directory is the webroot. Colibri code is located outside the web root by default (recommended). If you don't want to place your code outside the webroot, move the `app` and `sys` directories in the same directory as `index.php`. Open `index.php` and change the `SYS_PATH` constant to point where the Colibri core files reside (`sys` folder). 
+In the provided directory structure, the `web` directory is the webroot. Colibri code is located outside the web root by default (recommended). If you don't want to place your code outside the webroot, move the `app` and `sys` directories in the same directory as `index.php`. Open `index.php` and change the `COLIBRI_SYS_PATH` constant to point where the Colibri core files reside (`sys` folder). 

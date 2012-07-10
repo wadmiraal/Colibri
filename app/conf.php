@@ -17,7 +17,7 @@
 /**
  * No direct access.
  */
-if (!defined('SYS_PATH')) {
+if (!defined('COLIBRI_SYS_PATH')) {
   die("You are not allowed to access this script directly !");
 }
 

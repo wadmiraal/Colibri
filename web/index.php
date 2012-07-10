@@ -16,12 +16,12 @@
  * The path to the Colibri sys folder. This contains the Colibri core. Must
  * end with a slash !
  */
-define('SYS_PATH', '../sys/');
+define('COLIBRI_SYS_PATH', '../sys/');
 
 /**
  * Include Colibri.
  */
-require SYS_PATH . 'Colibri.php';
+require COLIBRI_SYS_PATH . 'Colibri.php';
 
 /**
  * And away we go !
