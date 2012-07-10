@@ -28,14 +28,14 @@ class C_Error extends C_Controller {
   public function __construct() {
     parent::__construct();
     
-    $this->view->layout('layout', COLIBRI_SYS_PATH . '/errors/');
+    $this->view->layout('layout', COLIBRI_SYS_PATH . 'errors/', '.php');
   }
   
   /**
    * Defines the 404 error page.
    */
   public function error404($class = '', $method = '') {
-    $this->view->view('404', COLIBRI_SYS_PATH . '/errors/');
+    $this->view->view('404', COLIBRI_SYS_PATH . 'errors/', '.php');
     
     $this->view->set('title', '404 - page not found');
     
@@ -52,7 +52,7 @@ class C_Error extends C_Controller {
    * Defines the 400 error page.
    */
   public function error400() {    
-    $this->view->view('400', COLIBRI_SYS_PATH . '/errors/');
+    $this->view->view('400', COLIBRI_SYS_PATH . 'errors/', '.php');
     
     $this->view->set('title', '400 - application error');
   }

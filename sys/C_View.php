@@ -127,9 +127,13 @@ class C_View {
    *        The name of the layout, without the file extension.
    * @param string $directory = NULL
    *        (optional) the directory where the view is located. Defaults to
-   *        APP_PATH . '/layouts/'
+   *        COLIBRI_SYS_PATH . 'layouts/'
+   * @param string $extension = NULL
+   *        (optional) the extension of the view. Defaults to conf('template_extension')
    */
-  public function layout($layout, $directory = NULL) {
+  public function layout($layout, $directory = NULL, $extension = NULL) {
+    $layout .= isset($extension) ? $extension : conf('template_extension');
+    
     $this->layout = $layout;
     
     if (!empty($directory)) {
@@ -144,9 +148,13 @@ class C_View {
    *        The name of the view, without the file extension.
    * @param string $directory = NULL
    *        (optional) the directory where the view is located. Defaults to
-   *        APP_PATH . '/views/'
+   *        COLIBRI_SYS_PATH . 'views/'
+   * @param string $extension = NULL
+   *        (optional) the extension of the view. Defaults to conf('template_extension')
    */
-  public function view($view, $directory = NULL) {
+  public function view($view, $directory = NULL, $extension = NULL) {
+    $view .= isset($extension) ? $extension : conf('template_extension');
+    
     $this->view = $view;
     
     if (!empty($directory)) {
@@ -266,7 +274,7 @@ class C_View {
     
     ob_start();
     
-    require_once($directory . $template . conf('template_extension'));
+    require_once($directory . $template);
     
     $html = ob_get_contents();
     
