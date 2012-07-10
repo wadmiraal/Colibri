@@ -32,7 +32,7 @@
 </head>
 <body>
   <div id="main">    
-    <?php echo $content; // required ?>
+    <?php echo $view; // required ?>
   </div>
 </body>
 </html>
