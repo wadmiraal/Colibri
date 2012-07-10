@@ -14,12 +14,16 @@ Colibri makes no assumption about your workflow, nor does it restrict you in any
 
 ### Directory structure
 
+<<<<<<< HEAD
 The Colibri core is located in the `sys` folder. The `web` and `app` folders are just examples and are not mandatory. The only thing you need to use Colibri is to a `COLIBRI_SYS_PATH` constant to point to the `sys` folder (you can rename this folder if you want), include the `Colibri.php` file and pass the path to the `conf.php` file to the `Colibri()` constructor. After that, you're good to code away !
+=======
+The Colibri core is located in the `sys` folder. The `web` and `app` folders are just examples and are not mandatory. The only thing you need to use Colibri is to have a `SYS_PATH` constant point to the `sys` folder (you can rename this folder if you want), include the `Colibri.php` file and pass the path to the `conf.php` file to the `Colibri()` constructor. After that, you're good to code away !
+>>>>>>> 6c62dac90895687c86d40b4b389029256a1e1b1e
 
 
 ### Template engine
 
-PHP comes bundled with a great, efficient and easy template-engine: PHP itself. Colibri simply uses php code to parse your template files and insert the data. Here again, Colibri enforces very little. The only thing is that it will always use a *layout* (which could be thought of as the HTML wrapper of your content) to which is passed a `$view` variable. This `$view`variable itself contains data from a *view*. If you're familiar with *partials*, then this will look familiar.
+PHP comes bundled with a great, efficient and easy template-engine: PHP itself. Colibri simply uses php code to parse your template files and insert the data. Here again, Colibri enforces very little. The only thing is that it will always use a *layout* (which could be thought of as the HTML wrapper of your content) to which is passed a `$view` variable. This `$view`variable itself contains data from a *view*. If you've used *partials* before, then this will look familiar.
 
 Views and layouts are simply PHP files with HTML. You can output any variables you want (iow: name the variables as you see fit in each file).
 
