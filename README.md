@@ -14,11 +14,7 @@ Colibri makes no assumption about your workflow, nor does it restrict you in any
 
 ### Directory structure
 
-<<<<<<< HEAD
 The Colibri core is located in the `sys` folder. The `web` and `app` folders are just examples and are not mandatory. The only thing you need to use Colibri is to a `COLIBRI_SYS_PATH` constant to point to the `sys` folder (you can rename this folder if you want), include the `Colibri.php` file and pass the path to the `conf.php` file to the `Colibri()` constructor. After that, you're good to code away !
-=======
-The Colibri core is located in the `sys` folder. The `web` and `app` folders are just examples and are not mandatory. The only thing you need to use Colibri is to have a `SYS_PATH` constant point to the `sys` folder (you can rename this folder if you want), include the `Colibri.php` file and pass the path to the `conf.php` file to the `Colibri()` constructor. After that, you're good to code away !
->>>>>>> 6c62dac90895687c86d40b4b389029256a1e1b1e
 
 
 ### Template engine
