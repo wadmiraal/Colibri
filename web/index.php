@@ -26,4 +26,4 @@ require COLIBRI_SYS_PATH . 'Colibri.php';
 /**
  * And away we go !
  */
-$colibri = new Colibri('../app/conf.php');
+$colibri = new Colibri(COLIBRI_SYS_PATH . '../app/conf.php');
