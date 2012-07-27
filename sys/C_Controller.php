@@ -41,6 +41,8 @@ class C_Controller {
    *        The rendered view as HTML.
    */
   public function render() {
+    Display::display_header("VOD");
+    
     return $this->view->render();
   }
 }

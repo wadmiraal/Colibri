@@ -37,9 +37,9 @@ $_conf['default_controller'] = 'Home';
  * The directories where all controllers, views and layouts are stored. Must
  * end with a slash !
  */
-$_conf['dir_controllers'] = '../app/controllers/';
-$_conf['dir_views']       = '../app/views/';
-$_conf['dir_layouts']     = '../app/layouts/';
+$_conf['dir_controllers'] = COLIBRI_SYS_PATH . '../app/controllers/';
+$_conf['dir_views']       = COLIBRI_SYS_PATH . '../app/views/';
+$_conf['dir_layouts']     = COLIBRI_SYS_PATH . '../app/layouts/';
 
 /**
  * The base path for your application. Defaults to the path to the index.php file.
