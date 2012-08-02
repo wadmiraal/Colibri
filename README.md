@@ -19,7 +19,7 @@ The Colibri core is located in the `sys` folder. The `web` and `app` folders are
 
 ### Template engine
 
-PHP comes bundled with a great, efficient and easy template-engine: PHP itself. Colibri simply uses php code to parse your template files and insert the data. Here again, Colibri enforces very little. The only thing is that it will always use a *layout* (which could be thought of as the HTML wrapper of your content) to which is passed a `$view` variable. This `$view`variable itself contains data from a *view*. If you've used *partials* before, then this will look familiar.
+PHP comes bundled with a great, efficient and easy template-engine: PHP itself. Colibri simply uses php code to parse your template files and insert the data. Here again, Colibri enforces very little. The only thing is that it will always use a *layout* (which could be thought of as the HTML wrapper of your content) to which is passed a `$view` variable. This `$view`variable itself contains data from a *view*. If you've used *partials* before, then this will look familiar. And BTW, you can use Views just as partials. You can use as many views as you want, each linked to a particular template file.
 
 Views and layouts are simply PHP files with HTML. You can output any variables you want (iow: name the variables as you see fit in each file).
 
