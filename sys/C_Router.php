@@ -172,8 +172,22 @@ class C_Router {
         // Get class
         $this->class_name = $this->_class_name(array_shift($uri));
         
-        // Default method
-        $this->method = 'index';
+        if (!load_file(conf('dir_controllers') . $this->class_name . conf('class_extension'))) {
+          if ($error_class = conf('404_handler')) {
+            $this->class_name = $error_class;
+            
+            $this->method = 'index';
+          }
+          else {
+            $this->class_name = 'C_Error';
+          
+            $this->method = 'error404';
+          }
+        }
+        else {
+          // Default method
+          $this->method = 'index';
+        }
       }
       // More than one segment
       else {
