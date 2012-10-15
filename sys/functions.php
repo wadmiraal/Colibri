@@ -3,7 +3,7 @@
  * Colibri, the tiny PHP framework
  *
  * Copyright (c) 2012 Wouter Admiraal (http://github.com/wadmiraal)
- *  
+ *
  * Licensed under the MIT license: http://opensource.org/licenses/MIT
  */
 
@@ -11,6 +11,8 @@
  * @file
  * Defines some global helper functions.
  */
+
+namespace Colibri;
 
 /**
  * No direct access.
@@ -30,7 +32,7 @@ if (!defined('COLIBRI_SYS_PATH')) {
  */
 function conf($name) {
   global $_conf;
-  
+
   return isset($_conf[$name]) ? $_conf[$name] : NULL;
 }
 
@@ -53,22 +55,22 @@ function conf($name) {
  */
 function url($controller, $method = 'index', $arguments = array(), $language = NULL) {
   $url = conf('base_path');
-  
+
   // Add the language
   if (conf('i18n_enabled') && !empty($language)) {
     $url .= urlencode($language) . '/';
   }
-  
+
   // Add the controller
-  $url .= C_Router::prepare_for_uri($controller);
-  
+  $url .= Router::prepare_for_uri($controller);
+
   // Do we have a method ?
   if (empty($arguments) && $method == 'index') {
     return $url;
   }
-  
-  $url .= '/' . C_Router::prepare_for_uri($method);
-  
+
+  $url .= '/' . Router::prepare_for_uri($method);
+
   if (!empty($arguments)) {
     foreach ($arguments as $arg) {
       if (strlen($arg)) {
@@ -76,7 +78,7 @@ function url($controller, $method = 'index', $arguments = array(), $language = N
       }
     }
   }
-  
+
   return $url;
 }
 
@@ -88,9 +90,9 @@ function url($controller, $method = 'index', $arguments = array(), $language = N
  */
 function go_to($controller, $method = NULL, $arguments = NULL, $language = NULL) {
   $url = url($controller, $method, $arguments, $language);
-  
+
   header('Location:' . $url);
-  
+
   exit();
 }
 
@@ -111,7 +113,7 @@ function go_to($controller, $method = NULL, $arguments = NULL, $language = NULL)
  *        The value of the URI segment.
  */
 function segment($index) {
-  return C_Router::segment($index);
+  return Router::segment($index);
 }
 
 /**
@@ -123,7 +125,7 @@ function segment($index) {
  */
 function language() {
   if (conf('i18n_enabled')) {
-    return C_I18nRouter::language();
+    return I18nRouter::language();
   }
   else {
     return NULL;

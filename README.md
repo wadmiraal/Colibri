@@ -2,7 +2,7 @@
 
 Colibri is a (really) small, but fully functional (M)VC framework. It's meant for small projects or quickly bootstrapping web applications.
 
-As most of the core is the routing functionality (see **Controlers** below), it can also serve as a basis for your own, custom MVC framework. 
+As most of the core is the routing functionality (see **Controlers** below), it can also serve as a basis for your own, custom MVC framework.
 
 Colibri is licensed under the MIT licence.
 
@@ -19,7 +19,7 @@ The Colibri core is located in the `sys` folder. The `web` and `app` folders are
 
 ### Template engine
 
-PHP comes bundled with a great, efficient and easy template-engine: PHP itself. Colibri simply uses php code to parse your template files and insert the data. Here again, Colibri enforces very little. The only thing is that it will always use a *layout* (which could be thought of as the HTML wrapper of your content) to which is passed a `$view` variable. This `$view`variable itself contains data from a *view*. If you've used *partials* before, then this will look familiar. And BTW, you can use Views just as partials. You can use as many views as you want, each linked to a particular template file.
+PHP comes bundled with a great, efficient and easy template-engine: PHP itself. Colibri simply uses php code to parse your template files and insert the data. Here again, Colibri enforces very little. The only thing is that it will always use a *layout* (which could be thought of as the HTML wrapper of your content) to which is passed a `$view` variable. This `$view`variable itself contains data from a *view*. If you've used *partials* before, then this will look familiar. And BTW, you can use Views just as partials. Just call `$view->partial()` to disable passing the view through a layout. You can use as many views as you want, each linked to a particular template file.
 
 Views and layouts are simply PHP files with HTML. You can output any variables you want (iow: name the variables as you see fit in each file).
 
@@ -80,8 +80,13 @@ Colibri is SEO-friendly. The default .htaccess file provides URL rewriting instr
 All class names and methods are made *URI-friendly* by replacing underscores with hyphens and lowercasing all segments (except the language parameter - see above).
 
 
+### Requirements
+
+Colibri requires PHP 5.3 or higher.
+
+
 ### Configuration
 
 Configuration directives are found in `app/conf.php` and are pretty self-explainatory. As mentioned in **Directory structure** above, you are not bound to the provided directory structure. You can use any structure you want, just as long as all Colibri core files are located in the same directory.
 
-In the provided directory structure, the `web` directory is the webroot. Colibri code is located outside the web root by default (recommended). If you don't want to place your code outside the webroot, move the `app` and `sys` directories in the same directory as `index.php`. Open `index.php` and change the `COLIBRI_SYS_PATH` constant to point where the Colibri core files reside (`sys` folder). 
+In the provided directory structure, the `web` directory is the webroot. Colibri code is located outside the web root by default (recommended). If you don't want to place your code outside the webroot, move the `app` and `sys` directories in the same directory as `index.php`. Open `index.php` and change the `COLIBRI_SYS_PATH` constant to point where the Colibri core files reside (`sys` folder).

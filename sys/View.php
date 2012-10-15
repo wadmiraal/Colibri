@@ -3,15 +3,17 @@
  * Colibri, the tiny PHP framework
  *
  * Copyright (c) 2012 Wouter Admiraal (http://github.com/wadmiraal)
- *  
+ *
  * Licensed under the MIT license: http://opensource.org/licenses/MIT
  */
 
 /**
  * @file
- * Defines the C_View class. Stores variables and passes them during rendering
+ * Defines the View class. Stores variables and passes them during rendering
  * to the template files.
  */
+
+namespace Colibri;
 
 /**
  * No direct access.
@@ -20,53 +22,58 @@ if (!defined('COLIBRI_SYS_PATH')) {
   die("You are not allowed to access this script directly !");
 }
 
-class C_View {
-  
+class View {
+
   /**
    * The name of the layout, without the extension.
    */
   protected $layout;
-  
+
   /**
    * The directory where the layout is located.
    */
   protected $layout_directory;
-  
+
   /**
    * The name of the view, without the extension.
    */
   protected $view;
-  
+
   /**
    * The directory where the view is located.
    */
   protected $view_directory;
-  
+
   /**
    * The variables that will be passed to the templates.
    */
   protected $vars;
-  
+
   /**
    * An array of javascript files to add to the layout.
    */
   protected $scripts;
-  
+
   /**
    * An array of stylesheets to add to the layout.
    */
   protected $stylesheets;
-  
+
   /**
-   * A flag telling the C_View to render the vars to a JSON string.
+   * A flag telling the View to render the vars to a JSON string.
    */
   protected $to_json;
-  
+
+  /**
+   * A flag telling the View to include itself in a layout or not.
+   */
+  protected $partial;
+
   /**
    * An array of headers to send to the browser.
    */
   protected $headers;
-  
+
   /**
    * Constructor...
    *
@@ -79,27 +86,29 @@ class C_View {
    */
   public function __construct($layout = 'default', $view = 'default') {
     $this->layout = $layout . conf('template_extension');
-    
+
     $this->layout_directory = conf('dir_layouts');
-    
+
     $this->view = $view . conf('template_extension');
-    
+
     $this->view_directory = conf('dir_views');
-    
+
     $this->vars = array();
-    
+
     $this->scripts = array();
-    
+
     $this->stylesheets = array();
-    
+
     $this->to_json = FALSE;
-    
+
+    $this->partial = FALSE;
+
     $this->headers = array('Content-type' => 'text/html');
-    
+
     // Add base path var
     $this->set('base_path', conf('base_path'));
   }
-  
+
   /**
    * Adds a javascript file to the list.
    *
@@ -108,8 +117,10 @@ class C_View {
    */
   public function add_js($file) {
     $this->scripts[] = $file;
+
+    return $this;
   }
-  
+
   /**
    * Adds a stylesheet to the list.
    *
@@ -118,8 +129,10 @@ class C_View {
    */
   public function add_css($file) {
     $this->stylesheets[] = $file;
+
+    return $this;
   }
-  
+
   /**
    * Sets the layout.
    *
@@ -133,14 +146,16 @@ class C_View {
    */
   public function layout($layout, $directory = NULL, $extension = NULL) {
     $layout .= isset($extension) ? $extension : conf('template_extension');
-    
+
     $this->layout = $layout;
-    
+
     if (!empty($directory)) {
       $this->layout_directory = $directory;
     }
+
+    return $this;
   }
-  
+
   /**
    * Sets the view.
    *
@@ -154,14 +169,16 @@ class C_View {
    */
   public function view($view, $directory = NULL, $extension = NULL) {
     $view .= isset($extension) ? $extension : conf('template_extension');
-    
+
     $this->view = $view;
-    
+
     if (!empty($directory)) {
       $this->view_directory = $directory;
     }
+
+    return $this;
   }
-  
+
   /**
    * Sets a variable value, usable in the layouts and views.
    *
@@ -172,8 +189,10 @@ class C_View {
    */
   public function set($name, $value) {
     $this->vars[$name] = $value;
+
+    return $this;
   }
-  
+
   /**
    * Gets a variable.
    *
@@ -183,16 +202,32 @@ class C_View {
   public function get($name) {
     return isset($this->vars[$name]) ? $this->vars[$name] : NULL;
   }
-  
+
   /**
    * Sets the render mode to JSON.
+   *
+   * @param bool $mode = TRUE
    */
-  public function json() {
+  public function json($mode = TRUE) {
     $this->set_header('Content-type', 'application/json');
-    
-    $this->to_json = TRUE;
+
+    $this->to_json = $mode;
+
+    return $this;
   }
-  
+
+  /**
+   * Sets the render mode to be a partial.
+   * This will skip the layout parsing.
+   *
+   * @param bool $mode = TRUE
+   */
+  public function partial($mode = TRUE) {
+    $this->partial = $mode;
+
+    return $this;
+  }
+
   /**
    * Sets a header.
    *
@@ -203,8 +238,10 @@ class C_View {
    */
   public function set_header($header, $value) {
     $this->headers[$header] = $value;
+
+    return $this;
   }
-  
+
   /**
    * Gets all the headers set for this view.
    *
@@ -214,7 +251,7 @@ class C_View {
   public function get_headers() {
     return $this->headers;
   }
-  
+
   /**
    * Renders the view and the layout and returns the HTML.
    *
@@ -222,40 +259,46 @@ class C_View {
    *        The rendered HTML.
    */
   public function render() {
-    foreach ($this->headers as $header => $value) {
-      header("$header: $value");
+    // If this is not a partial, set the headers for the request
+    if (!$this->partial) {
+      foreach ($this->get_headers() as $header => $value) {
+        header("$header: $value");
+      }
     }
-    
-    if ($this->to_json) {      
+
+    if ($this->to_json) {
       return json_encode($this->vars);
     }
     else {
       try {
         // Get the vars
         $vars = $this->vars;
-        
+
         // First render the view
         $view = $this->_render_template($vars, $this->view, $this->view_directory);
-        
-        // Make sure we get them all again: PHP 5.3 passes variables be reference
-        $vars = $this->vars;
-        
-        // Add/change some defaults
-        $vars['view']        = $view;
-        $vars['stylesheets'] = $this->_render_stylesheets();
-        $vars['scripts']     = $this->_render_scripts();
-        
-        // Second, render the layout
-        $full = $this->_render_template($vars, $this->layout, $this->layout_directory);
-        
-        return $full;
+
+        // If this is not a partial, include a layout
+        if (!$this->partial) {
+          // Make sure we get them all again: PHP 5.3 passes variables be reference
+          $vars = $this->vars;
+
+          // Add/change some defaults
+          $vars['view']        = $view;
+          $vars['stylesheets'] = $this->_render_stylesheets();
+          $vars['scripts']     = $this->_render_scripts();
+
+          // Second, render the layout
+          $full = $this->_render_template($vars, $this->layout, $this->layout_directory);
+        }
+
+        return $this->partial ? $view : $full;
       }
       catch (ErrorException $e) {
         sys_error("Could not parse the templates !", TRUE);
       }
     }
   }
-  
+
   /**
    * Renders the requested template file and extracts the variables.
    *
@@ -271,18 +314,18 @@ class C_View {
    */
   protected function _render_template($vars, $template, $directory) {
     extract($vars, EXTR_SKIP);
-    
+
     ob_start();
-    
+
     require_once($directory . $template);
-    
+
     $html = ob_get_contents();
-    
+
     ob_end_clean();
-    
+
     return $html;
   }
-  
+
   /**
    * Renders the stylesheet list as HTML <link>s.
    *
@@ -291,16 +334,16 @@ class C_View {
    */
   protected function _render_stylesheets() {
     $html = '';
-    
+
     $base_path = conf('base_path');
-    
+
     foreach ($this->stylesheets as $stylesheet) {
       $html .= '<link href="' . $base_path . $stylesheet . '" type="text/css" rel="stylesheet" />' . "\n";
     }
-    
+
     return $html;
   }
-  
+
   /**
    * Renders the javascript files list as HTML <script>s.
    *
@@ -309,13 +352,13 @@ class C_View {
    */
   protected function _render_scripts() {
     $html = '';
-    
+
     $base_path = conf('base_path');
-    
+
     foreach ($this->scripts as $script) {
       $html .= '<script src="' . $base_path . $script . '"></script>' . "\n";
     }
-    
+
     return $html;
   }
 }

@@ -3,15 +3,16 @@
  * Colibri, the tiny PHP framework
  *
  * Copyright (c) 2012 Wouter Admiraal (http://github.com/wadmiraal)
- *  
+ *
  * Licensed under the MIT license: http://opensource.org/licenses/MIT
  */
 
 /**
  * @file
- * Defines the C_Controller base class. All controller classes must extend
- * the C_Controller class.
+ * Defines the Controller base class.
  */
+
+namespace Colibri;
 
 /**
  * No direct access.
@@ -20,27 +21,27 @@ if (!defined('COLIBRI_SYS_PATH')) {
   die("You are not allowed to access this script directly !");
 }
 
-class C_Controller {
-  
+class Controller {
+
   /**
-   * A C_View object. Will render the views.
+   * A View object. Will render the views.
    */
   protected $view;
-  
+
   /**
    * Constructor...
    */
   public function __construct() {
-    $this->view = new C_View();
+    $this->view = new View();
   }
-  
+
   /**
    * Renders the HTML and returns it.
    *
    * @return string
    *        The rendered view as HTML.
    */
-  public function render() {    
+  public function render() {
     return $this->view->render();
   }
 }
