@@ -19,23 +19,23 @@ The Colibri core is located in the `sys` folder. The `web` and `app` folders are
 
 ### Template engine
 
-PHP comes bundled with a great, efficient and easy template-engine: PHP itself. Colibri simply uses php code to parse your template files and insert the data. Here again, Colibri enforces very little. By default, it will use a *layout* (which could be thought of as the HTML wrapper of your content) to which is passed a `$view` variable. This `$view`variable itself contains data from a *view*.
+PHP comes bundled with a great, efficient and easy template-engine: PHP itself. Colibri simply uses php code to parse your template files and insert the data. Here again, Colibri enforces very little. By default, it will use a *layout* (which could be thought of as the HTML wrapper of your content) to which is passed a `$view` variable. This `$view`variable itself contains string data from a *view*.
 
 If you've used *partials* before, then this will look familiar.
 
 Views and layouts are simply PHP files with HTML. You can output any variables you want (iow: name the variables as you see fit in each file).
 
-For convenience, 3 pre-defined variables will be available for the *layouts*: `$stylesheets`, `$scripts` and `$view`. `$stylesheets` and `$scripts` will be populated by calling the `$view->add_css()` or `$view->add_js()` methods in controllers, but this is not mandatory.
+For convenience, 3 pre-defined variables will be available for the *layouts*: `$stylesheets`, `$scripts` and `$view`. `$stylesheets` and `$scripts` will be populated by calling the `$this->view->add_css()` or `$this->view->add_js()` methods in controllers, but this is not mandatory.
 
 
 #### Partials ?
 
-You can use Views just as partials. Just call `$view->partial()` to disable passing the view through a layout. This will allow you to have views nested within each other, giving great flexibility. You can use as many views as you want, each linked to a particular template file.
+You can use Views just as partials. Just call `$my_view->partial()` to disable passing the view through a layout. This will allow you to have views nested within each other, giving great flexibility. You can use as many views as you want, each linked to a particular template file.
 
 
 #### AJAX ?
 
-A view can also be rendered as JSON. By calling `$view->json()`, the template engine will skip the template parsing and directly output all variables as a JSON string. This is super-easy and very usefull for AJAX heavy applications.
+A view can also be rendered as JSON. By calling `$this->view->json()`, the template engine will skip the template parsing and directly output all variables as a JSON string. This is super-easy and very usefull for AJAX heavy applications.
 
 
 ## Models
