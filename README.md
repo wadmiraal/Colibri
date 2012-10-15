@@ -19,11 +19,18 @@ The Colibri core is located in the `sys` folder. The `web` and `app` folders are
 
 ### Template engine
 
-PHP comes bundled with a great, efficient and easy template-engine: PHP itself. Colibri simply uses php code to parse your template files and insert the data. Here again, Colibri enforces very little. The only thing is that it will always use a *layout* (which could be thought of as the HTML wrapper of your content) to which is passed a `$view` variable. This `$view`variable itself contains data from a *view*. If you've used *partials* before, then this will look familiar. And BTW, you can use Views just as partials. Just call `$view->partial()` to disable passing the view through a layout. You can use as many views as you want, each linked to a particular template file.
+PHP comes bundled with a great, efficient and easy template-engine: PHP itself. Colibri simply uses php code to parse your template files and insert the data. Here again, Colibri enforces very little. By default, it will use a *layout* (which could be thought of as the HTML wrapper of your content) to which is passed a `$view` variable. This `$view`variable itself contains data from a *view*.
+
+If you've used *partials* before, then this will look familiar.
 
 Views and layouts are simply PHP files with HTML. You can output any variables you want (iow: name the variables as you see fit in each file).
 
-For convenience, 3 extra variables will be available for the *layouts*: `$stylesheets`, `$scripts` and `$base_path`. `$stylesheets` and `$scripts` will be populated by calling the `$view->add_css()` or `$view->add_js()` methods in controllers, but this is not mandatory.
+For convenience, 3 pre-defined variables will be available for the *layouts*: `$stylesheets`, `$scripts` and `$view`. `$stylesheets` and `$scripts` will be populated by calling the `$view->add_css()` or `$view->add_js()` methods in controllers, but this is not mandatory.
+
+
+#### Partials ?
+
+You can use Views just as partials. Just call `$view->partial()` to disable passing the view through a layout. This will allow you to have views nested within each other, giving great flexibility. You can use as many views as you want, each linked to a particular template file.
 
 
 #### AJAX ?
@@ -43,7 +50,7 @@ A view in Colibri is simply a file containing both HTML and PHP code. By default
 
 ## Controllers
 
-All controllers must extend the `C_Controller` class. All public methods with no prefixing underscore will be considered "callable" and can be mapped to in the url. Colibri uses the standard `controller/method/param1/param2/.../paramN` paradigm for routing the requests.
+All controllers should extend the `Colibri\Controller` class. All public methods with no prefixing underscore will be considered "callable" and can be mapped to in the url. Colibri uses the standard `controller/method/param1/param2/.../paramN` paradigm for routing the requests. Each parameter is then passed, in the same order, to the class method.
 
 
 ## Helper functions
@@ -64,9 +71,9 @@ There are a few helper functions that are globally available.
 ## i18n out of the box
 
 Colibri can route requests for localized applications be prepending a language parameter to all URIs. This *language* parameter can be anything you want, and it's up to you to implement the localization or internationalization logic for your application. For example, these are all valid:
-`en/controller/method`
-`fr-FR/controller/method`
-`ITA/controller/method`
+    en/controller/method
+    fr-FR/controller/method
+    ITA/controller/method
 
 If a default language is set, all URIs with no language parameter will be considered of the default language (see `language()` above).
 
