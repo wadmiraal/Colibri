@@ -50,15 +50,15 @@ All controllers must extend the `C_Controller` class. All public methods with no
 
 There are a few helper functions that are globally available.
 
-`conf()` retrieves values from the configuration file.
+`Colibri\conf()` retrieves values from the configuration file.
 
-`url()` makes it easier to format internal links for your application.
+`Colibri\url()` makes it easier to format internal links for your application.
 
-`go_to()` redirects the current request. It uses the same parameters as `url()`.
+`Colibri\go_to()` redirects the current request. It uses the same parameters as `url()`.
 
-`segment()` will return the requested segment from the URI (e.g.: for `controller/method/param1`, `segment(1)` will return *method*).
+`Colibri\segment()` will return the requested segment from the URI (e.g.: for `controller/method/param1`, `segment(1)` will return *method* - this is also true for i18n applications: `fr/controller/method/param1`, `segment(1)` will still return *method*).
 
-`language()` will return the current language in i18n enabled applications.
+`Colibri\language()` will return the current language in i18n enabled applications.
 
 
 ## i18n out of the box
