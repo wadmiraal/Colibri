@@ -57,4 +57,10 @@ interface RouterInterface {
    *        The element, ready for the URI.
    */
   public function prepare_for_uri($string);
+
+  /**
+   * Routes the current request to get the controller, method and
+   * parameters
+   */
+  public function route();
 }

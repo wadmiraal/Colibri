@@ -1,2 +1,3 @@
 /sys/composer.phar
-/sys/vendor/
+/sys/composer.lock
+/sys/vendor/*/

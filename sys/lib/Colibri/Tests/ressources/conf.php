@@ -3,7 +3,7 @@
  * Colibri, the tiny PHP framework
  *
  * Copyright (c) 2012 Wouter Admiraal (http://github.com/wadmiraal)
- *  
+ *
  * Licensed under the MIT license: http://opensource.org/licenses/MIT
  */
 
@@ -37,9 +37,9 @@ $_conf['default_controller'] = 'DummyController';
  * The directories where all controllers, views and layouts are stored. Must
  * end with a slash !
  */
-$_conf['dir_controllers'] = COLIBRI_SYS_PATH . 'tests/ressources/controllers/';
-$_conf['dir_views']       = COLIBRI_SYS_PATH . 'tests/ressources/views/';
-$_conf['dir_layouts']     = COLIBRI_SYS_PATH . 'tests/ressources/layouts/';
+$_conf['dir_controllers'] = COLIBRI_SYS_PATH . 'lib/Colibri/Tests/ressources/controllers/';
+$_conf['dir_views']       = COLIBRI_SYS_PATH . 'lib/Colibri/Tests/ressources/views/';
+$_conf['dir_layouts']     = COLIBRI_SYS_PATH . 'lib/Colibri/Tests/ressources/layouts/';
 
 /**
  * The base path for your application. Defaults to the path to the index.php file.
@@ -77,7 +77,7 @@ $_conf['class_extension'] = '.php';
  * E.g.:
  * fr/controller/method/param1
  * en-US/controller/method/param1
- * 
+ *
  * This parameter can be anything you want: Colibri enforces no standards.
  * E.g.:
  * en/controller/method/param1
@@ -89,4 +89,4 @@ $_conf['i18n_enabled'] = TRUE;
  * You may set a default language parameter: in case the language is absent, the
  * default one will be used.
  */
-$_conf['i18n_default_language'] = 'en-GB';
+$_conf['i18n_default_language'] = 'default';

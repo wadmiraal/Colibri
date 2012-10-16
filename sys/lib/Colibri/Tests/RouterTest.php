@@ -6,7 +6,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 
 require_once 'ColibriTestCase.php';
 
-ColibriTestCase::load_dependencies(array('C_Router'));
+ColibriTestCase::load_dependencies(array('RouterInterface', 'Router'));
 
 /**
  *
@@ -38,16 +38,10 @@ class RouterTest extends ColibriTestCase {
         'params' => array()
       ),
       array(
-        'path' => '/dummycontroller/testmethod/',
-        'class' => 'C_Error',
-        'method' => 'error404',
-        'params' => array()
-      ),
-      array(
-        'path' => '/faulty-controller/index',
-        'class' => 'C_Error',
-        'method' => 'error404',
-        'params' => array()
+        'path' => '/dummy-controller/myMethod_ofDoom/123//asdsad/éèààéè',
+        'class' => 'Dummy_Controller',
+        'method' => 'myMethod_ofDoom',
+        'params' => array(123, NULL, 'asdsad', 'éèààéè')
       ),
     );
   }
@@ -63,7 +57,7 @@ class RouterTest extends ColibriTestCase {
   /**
    * Test URL parsing
    * Make sure the Router gets the correct controllers, methods and params.
-   * If class or method does not exist, should trigger the C_Error class.
+   * If class or method does not exist, should trigger the Colibri\Error class.
    */
   public function testURLParsing() {
     foreach($this->test_urls as $test) {
@@ -71,13 +65,11 @@ class RouterTest extends ColibriTestCase {
 
       $router = new $this->RouterClass();
 
-      $this->assertEquals($test['class'], $router->get_class(), "Find correct class name for {$test['path']}");
+      $router->route();
 
-      $this->assertEquals($test['method'], $router->get_method(), "Find correct method name for {$test['path']}");
-
+      $this->assertEquals($test['class'],  $router->get_class(),     "Find correct class name for {$test['path']}");
+      $this->assertEquals($test['method'], $router->get_method(),    "Find correct method name for {$test['path']}");
       $this->assertEquals($test['params'], $router->get_arguments(), "Find correct parameters for {$test['path']}");
-
-      unset($router);
     }
   }
 }

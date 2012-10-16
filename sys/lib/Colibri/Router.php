@@ -52,8 +52,6 @@ class Router implements RouterInterface {
 
   public function __construct() {
     $this->_get_uri();
-
-    $this->_parse_uri();
   }
 
   /**
@@ -87,37 +85,14 @@ class Router implements RouterInterface {
   /**
    * @inheritDoc
    */
-  public function segment($index, $store = FALSE) {
-    if (empty($this->segments)) {
-      $this->segments = (array) @explode('/', $store);
-
-      array_shift($this->segments);
-    }
-
+  public function segment($index) {
     return isset($this->segments[$index]) ? $this->segments[$index] : NULL;
   }
 
   /**
-   * Gets the current uri and parses it.
-   * @see _parse_uri()
+   * @inheritDoc
    */
-  protected function _get_uri() {
-    if (!empty($_SERVER['PATH_INFO'])) {
-      $this->uri = $_SERVER['PATH_INFO'];
-    }
-    elseif (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['SCRIPT_NAME'])) {
-      $this->uri = substr($_SERVER['PHP_SELF'], strlen($_SERVER['SCRIPT_NAME']));
-    }
-    else {
-      $this->uri = '';
-    }
-  }
-
-  /**
-   * Parses the current uri and stores the class name, the method and the
-   * arguments.
-   */
-  protected function _parse_uri() {
+  public function route() {
     $uri = (array) @explode('/', $this->uri);
 
     // Remove the first empty element
@@ -147,17 +122,36 @@ class Router implements RouterInterface {
       // More than one segment
       else {
         // Get method
-        $method = array_shift($uri);
+        $method = $this->_method_name(array_shift($uri));
 
         if (empty($method)) {
           $this->method = 'index';
         }
+        else {
+          $this->method = $method;
+        }
 
         // Get arguments and decode them from the url
-        while ($arg = array_shift($uri)) {
+        foreach ($uri as $arg) {
           $this->arguments[] = urldecode($arg);
         }
       }
+    }
+  }
+
+  /**
+   * Gets the current uri and parses it.
+   * @see _parse_uri()
+   */
+  protected function _get_uri() {
+    if (!empty($_SERVER['PATH_INFO'])) {
+      $this->uri = $_SERVER['PATH_INFO'];
+    }
+    elseif (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['SCRIPT_NAME'])) {
+      $this->uri = substr($_SERVER['PHP_SELF'], strlen($_SERVER['SCRIPT_NAME']));
+    }
+    else {
+      $this->uri = '';
     }
   }
 

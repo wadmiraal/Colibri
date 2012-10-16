@@ -52,6 +52,9 @@ require_once(COLIBRI_SYS_PATH . 'lib/Colibri/ApplicationInterface.php');
 // Require composer installed 3rd parties, if needed
 require_once(COLIBRI_SYS_PATH . 'vendor/autoload.php');
 
+// Require helper functions
+require_once(COLIBRI_SYS_PATH . 'functions.php');
+
 
 class Application implements ApplicationInterface {
 
@@ -76,9 +79,6 @@ class Application implements ApplicationInterface {
   public function __construct($conf_path) {
     // Include configuration file
     require_once($conf_path);
-
-    // Require helper functions
-    require_once(COLIBRI_SYS_PATH . 'functions.php');
   }
 
   /**
@@ -105,7 +105,11 @@ class Application implements ApplicationInterface {
 
     $RouterClass = conf('router_class', conf('i18n_enabled', FALSE) ? 'Colibri\I18nRouter' : 'Colibri\Router');
 
+    // Initialize router
     $this->router = new $RouterClass();
+
+    // Route the current request
+    $this->router->route();
 
     $Class  = $this->router->get_class();
     $method = $this->router->get_method();

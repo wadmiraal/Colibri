@@ -1,3 +1,6 @@
+<!--
+  Note to self:
+-->
 <phpunit>
   <testsuites>
     <testsuite name="ColibriTestCase">

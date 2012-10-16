@@ -32,14 +32,14 @@ class I18nRouter extends Router {
   /**
    * Returns the current language.
    */
-  public static function language() {
+  public function language() {
     return $this->language;
   }
 
   /**
    * @override
    */
-  protected function _parse_uri() {
+  public function route() {
     $uri = @explode('/', $this->uri);
 
     // Remove the first empty element
@@ -60,7 +60,7 @@ class I18nRouter extends Router {
       $this->uri = '/' . implode('/', $uri);
     }
 
-    parent::_parse_uri();
+    parent::route();
   }
 
 }

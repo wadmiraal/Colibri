@@ -135,7 +135,11 @@ function segment($index) {
  */
 function language() {
   if (conf('i18n_enabled')) {
-    return I18nRouter::language();
+    global $colibri;
+
+    $router = $colibri->get_router();
+
+    return $router->language();
   }
   else {
     return NULL;
