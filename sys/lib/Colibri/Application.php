@@ -14,12 +14,7 @@
 
 namespace Colibri;
 
-/**
- * No direct access.
- */
-if (!defined('COLIBRI_SYS_PATH')) {
-  die("You are not allowed to access this script directly !");
-}
+use Colibri\ApplicationInterface;
 
 /**
  * Log function for system errors.
@@ -36,6 +31,7 @@ function sys_error($message, $kill = FALSE) {
   if ($kill) {
     try {
       // Prevent a redirection loop
+      //  @todo
       if (segment(0) != '400') {
         Router::kill();
       }
@@ -46,10 +42,7 @@ function sys_error($message, $kill = FALSE) {
   }
 }
 
-// Require the ApplicationInterface
-require_once(COLIBRI_SYS_PATH . 'lib/Colibri/ApplicationInterface.php');
-
-// Require composer installed 3rd parties, if needed
+// Register composer autoloader
 require_once(COLIBRI_SYS_PATH . 'vendor/autoload.php');
 
 // Require helper functions
@@ -117,7 +110,7 @@ class Application implements ApplicationInterface {
       require_once($file);
     }
 
-    $RouterClass = conf('router_class', conf('i18n_enabled', FALSE) ? 'Colibri\I18nRouter' : 'Colibri\Router');
+    $RouterClass = conf('router_class', conf('i18n_enabled', FALSE) ? 'Colibri\\I18nRouter' : 'Colibri\\Router');
 
     // Initialize router
     $this->router = new $RouterClass();
@@ -134,8 +127,6 @@ class Application implements ApplicationInterface {
       // Add method and class as arguments for the error handler
       array_unshift($args, $method);
       array_unshift($args, $Class);
-
-      require_once(COLIBRI_SYS_PATH . 'lib/Colibri/Error.php');
 
       // Get the error handler and generate a 404 error
       $ErrorClass = conf('404_handler');

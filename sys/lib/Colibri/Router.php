@@ -15,14 +15,7 @@
 
 namespace Colibri;
 
-/**
- * No direct access.
- */
-if (!defined('COLIBRI_SYS_PATH')) {
-  die("You are not allowed to access this script directly !");
-}
-
-require_once(COLIBRI_SYS_PATH . 'lib/Colibri/RouterInterface.php');
+use Colibri\RouterInterface;
 
 
 class Router implements RouterInterface {

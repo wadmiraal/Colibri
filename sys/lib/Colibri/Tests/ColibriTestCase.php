@@ -2,14 +2,15 @@
 
 define('COLIBRI_SYS_PATH', '../../../');
 
+require_once(COLIBRI_SYS_PATH . 'autoload.php');
+require_once COLIBRI_SYS_PATH . 'functions.php';
+
 class ColibriTestCase extends PHPUnit_Framework_TestCase {
 
   /**
    *
    */
   public static function load_dependencies($files = array()) {
-    require_once COLIBRI_SYS_PATH . 'lib/Colibri/Application.php';
-
     // Load conf file
     require_once COLIBRI_SYS_PATH . 'lib/Colibri/Tests/ressources/conf.php';
 
