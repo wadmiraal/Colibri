@@ -3,7 +3,7 @@
  * Colibri, the tiny PHP framework
  *
  * Copyright (c) 2012 Wouter Admiraal (http://github.com/wadmiraal)
- *  
+ *
  * Licensed under the MIT license: http://opensource.org/licenses/MIT
  */
 
@@ -66,7 +66,8 @@ $_conf['class_extension'] = '.php';
 #$_conf['autoload'] = array('path/to/my/File.php');
 
 /**
- * 404 controller. By default, handled by Colibri itself.
+ * 404 controller. By default, handled by Colibri itself. Will look inside the
+ * controllers directory.
  */
 #$_conf['404_handler'] = 'My_Error_404';
 
@@ -77,7 +78,7 @@ $_conf['class_extension'] = '.php';
  * E.g.:
  * fr/controller/method/param1
  * en-US/controller/method/param1
- * 
+ *
  * This parameter can be anything you want: Colibri enforces no standards.
  * E.g.:
  * en/controller/method/param1
@@ -90,3 +91,16 @@ $_conf['class_extension'] = '.php';
  * default one will be used.
  */
 #$_conf['i18n_default_language'] = 'en-GB';
+
+/**
+ * Advanced configuration directives
+ * Customize every aspect of your application by changing these settings.
+ * Warning: make sure you know what you're doing !
+ */
+/**
+ * Custom router class.
+ * Set a custom router class for handling incoming requests.
+ * Should implement the Colibri\RouterInterface. Don't forget to autoload this file
+ * with the 'autoload' directive above.
+ */
+#$_conf['router_class'] = 'Namespace\Classname';
