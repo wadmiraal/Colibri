@@ -26,14 +26,16 @@ if (!defined('COLIBRI_SYS_PATH')) {
  *
  * @param string $name
  *        The name of the parameter.
+ * @param mixed $default = NULL
+ *        The default value
  *
  * @return mixed
  *        The value of the parameter.
  */
-function conf($name) {
+function conf($name, $default = NULL) {
   global $_conf;
 
-  return isset($_conf[$name]) ? $_conf[$name] : NULL;
+  return isset($_conf[$name]) ? $_conf[$name] : $default;
 }
 
 /**
@@ -54,6 +56,8 @@ function conf($name) {
  *        The properly formatted URI.
  */
 function url($controller, $method = 'index', $arguments = array(), $language = NULL) {
+  global $colibri;
+
   $url = conf('base_path');
 
   // Add the language
@@ -61,15 +65,17 @@ function url($controller, $method = 'index', $arguments = array(), $language = N
     $url .= urlencode($language) . '/';
   }
 
+  $router = $colibri->get_router();
+
   // Add the controller
-  $url .= Router::prepare_for_uri($controller);
+  $url .= $router->prepare_for_uri($controller);
 
   // Do we have a method ?
   if (empty($arguments) && $method == 'index') {
     return $url;
   }
 
-  $url .= '/' . Router::prepare_for_uri($method);
+  $url .= '/' . $router->prepare_for_uri($method);
 
   if (!empty($arguments)) {
     foreach ($arguments as $arg) {
@@ -113,7 +119,11 @@ function go_to($controller, $method = NULL, $arguments = NULL, $language = NULL)
  *        The value of the URI segment.
  */
 function segment($index) {
-  return Router::segment($index);
+  global $colibri;
+
+  $router = $colibri->get_router();
+
+  return $router->segment($index);
 }
 
 /**

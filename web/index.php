@@ -21,9 +21,10 @@ define('COLIBRI_SYS_PATH', '../sys/');
 /**
  * Include Colibri.
  */
-require COLIBRI_SYS_PATH . 'Colibri.php';
+require COLIBRI_SYS_PATH . 'lib/Colibri/Application.php';
 
 /**
  * And away we go !
  */
-$colibri = new Colibri\Colibri(COLIBRI_SYS_PATH . '../app/conf.php');
+$colibri = new Colibri\Application(COLIBRI_SYS_PATH . '../app/conf.php');
+$colibri->run()->respond();
