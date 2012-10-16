@@ -49,6 +49,9 @@ function sys_error($message, $kill = FALSE) {
 // Require the ApplicationInterface
 require_once(COLIBRI_SYS_PATH . 'lib/Colibri/ApplicationInterface.php');
 
+// Require composer installed 3rd parties, if needed
+require_once(COLIBRI_SYS_PATH . 'vendor/autoload.php');
+
 
 class Application implements ApplicationInterface {
 
