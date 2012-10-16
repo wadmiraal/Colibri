@@ -1,0 +1,10 @@
+<!--
+  Note: cd into tests directory and call `/path/to/Colibri/sys/vendor/bin/phpunit -c ApplicationTestSuite.xml` from the command line
+-->
+<phpunit>
+  <testsuites>
+    <testsuite name="ApplicationTestSuite">
+      <file>Tests/ApplicationRouterTests.php</file>
+    </testsuite>
+  </testsuites>
+</phpunit>
