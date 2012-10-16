@@ -15,13 +15,6 @@
 
 namespace Colibri;
 
-/**
- * No direct access.
- */
-if (!defined('COLIBRI_SYS_PATH')) {
-  die("You are not allowed to access this script directly !");
-}
-
 class Error extends Controller {
 
   /**

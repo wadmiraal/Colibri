@@ -14,7 +14,7 @@ ColibriTestCase::load_dependencies(array('RouterInterface', 'Router', 'I18nRoute
  */
 class I18nRouterTest extends RouterTest {
 
-  protected $RouterClass = 'Colibri\I18nRouter';
+  protected $RouterClass = 'Colibri\\I18nRouter';
 
   public function setUp() {
     $this->test_urls = array(

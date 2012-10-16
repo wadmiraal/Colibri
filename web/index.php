@@ -19,9 +19,9 @@
 define('COLIBRI_SYS_PATH', '../sys/');
 
 /**
- * Include Colibri.
+ * Autoload
  */
-require COLIBRI_SYS_PATH . 'lib/Colibri/Application.php';
+require_once(COLIBRI_SYS_PATH . 'autoload.php');
 
 /**
  * And away we go !

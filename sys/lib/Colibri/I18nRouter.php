@@ -15,12 +15,7 @@
 
 namespace Colibri;
 
-/**
- * No direct access.
- */
-if (!defined('COLIBRI_SYS_PATH')) {
-  die("You are not allowed to access this script directly !");
-}
+use Colibri\Router;
 
 class I18nRouter extends Router {
 

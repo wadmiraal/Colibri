@@ -15,7 +15,7 @@ class RouterTest extends ColibriTestCase {
 
   protected $test_urls;
 
-  protected $RouterClass = 'Colibri\Router';
+  protected $RouterClass = 'Colibri\\Router';
 
   public function setUp() {
     $this->test_urls = array(
