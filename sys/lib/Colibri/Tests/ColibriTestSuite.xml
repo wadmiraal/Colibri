@@ -1,5 +1,5 @@
 <!--
-  Note to self:
+  Note: cd into lib/Colibri/Tests directory and call `../../../vendor/bin/phpunit -c ColibriTestSuite.xml` from the command line
 -->
 <phpunit>
   <testsuites>

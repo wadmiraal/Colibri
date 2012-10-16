@@ -6,7 +6,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 
 require_once 'ColibriTestCase.php';
 
-ColibriTestCase::load_dependencies(array('RouterInterface', 'Router'));
+ColibriTestCase::load_dependencies(array('Router'));
 
 /**
  *
