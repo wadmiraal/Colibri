@@ -37,4 +37,14 @@ interface ApplicationInterface {
    * Get the router instance
    */
   public function get_router();
+
+  /**
+   * Get the response string
+   */
+  public function get_response();
+
+  /**
+   * Get the response headers
+   */
+  public function get_headers();
 }

@@ -91,11 +91,25 @@ class Application implements ApplicationInterface {
   /**
    * @inheritDoc
    */
+  public function get_response() {
+    return $this->response;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function get_headers() {
+    return $this->headers;
+  }
+
+  /**
+   * @inheritDoc
+   */
   public function run() {
     // Autoload
     $autoload = conf('autoload', array());
 
-    foreach (array('RouterInterface', 'Router', 'Controller', 'View') as $file) {
+    foreach (array('Router', 'Controller', 'View') as $file) {
       $autoload[] = COLIBRI_SYS_PATH . 'lib/Colibri/' . $file . '.php';
     }
 
