@@ -259,13 +259,6 @@ class View {
    *        The rendered HTML.
    */
   public function render() {
-    // If this is not a partial, set the headers for the request
-    if (!$this->partial) {
-      foreach ($this->get_headers() as $header => $value) {
-        header("$header: $value");
-      }
-    }
-
     if ($this->to_json) {
       return json_encode($this->vars);
     }

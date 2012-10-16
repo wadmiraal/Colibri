@@ -9,7 +9,7 @@
 
 /**
  * @file
- * Defines the Controller base class.
+ * Defines the Colibri application interface.
  */
 
 namespace Colibri;
@@ -21,27 +21,20 @@ if (!defined('COLIBRI_SYS_PATH')) {
   die("You are not allowed to access this script directly !");
 }
 
-class Controller {
+interface ApplicationInterface {
 
   /**
-   * A View object. Will render the views.
+   * Initialize the application.
    */
-  protected $view;
+  public function run();
 
   /**
-   * Constructor...
+   * Outputs the actual requested ressource
    */
-  public function __construct() {
-    $this->view = new View();
-  }
+  public function respond();
 
   /**
-   * Renders the HTML and returns it.
-   *
-   * @return string
-   *        The rendered view as HTML.
+   * Get the router instance
    */
-  public function render() {
-    return $this->view->render();
-  }
+  public function get_router();
 }

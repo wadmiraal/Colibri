@@ -22,7 +22,7 @@ if (!defined('COLIBRI_SYS_PATH')) {
   die("You are not allowed to access this script directly !");
 }
 
-class Router {
+class Router implements RouterInterface {
 
   /**
    * The current, requested uri.
@@ -45,86 +45,56 @@ class Router {
   protected $arguments;
 
   /**
-   * Constructor...
+   * The segments of the URL.
    */
+  protected $segments;
+
+
   public function __construct() {
     $this->_get_uri();
+
+    $this->_parse_uri();
   }
 
   /**
-   * Returns the requested class name.
-   *
-   * @return string
-   *        The class name.
+   * @inheritDoc
    */
   public function get_class() {
     return $this->class_name;
   }
 
   /**
-   * Returns the requested method.
-   *
-   * @return string
-   *        The method name.
+   * @inheritDoc
    */
   public function get_method() {
     return $this->method;
   }
 
   /**
-   * Returns the passes arguments.
-   *
-   * @return array
-   *        The arguments.
+   * @inheritDoc
    */
   public function get_arguments() {
     return $this->arguments;
   }
 
   /**
-   * Parses a string for the URI and returns it.
-   *
-   * @param string $string
-   *        The class name or method.
-   *
-   * @return string
-   *        The element, ready for the URI.
+   * @inheritDoc
    */
-  public static function prepare_for_uri($string) {
+  public function prepare_for_uri($string) {
     return str_replace('_', '-', strtolower($string));
   }
 
   /**
-   * Returns the requested URI segment.
-   *
-   * @param int $index
-   *        The index if the URI segment.
-   * @param string|bool $store = FALSE
-   *        (optional) if set, will store the passed URI in a static variable.
-   *
-   * @return string
-   *        The requested URI segment
+   * @inheritDoc
    */
-  public static function segment($index, $store = FALSE) {
-    static $segments = array();
+  public function segment($index, $store = FALSE) {
+    if (empty($this->segments)) {
+      $this->segments = (array) @explode('/', $store);
 
-    if ($store) {
-      $segments = (array) @explode('/', $store);
-
-      array_shift($segments);
+      array_shift($this->segments);
     }
-    else {
-      return isset($segments[$index]) ? $segments[$index] : NULL;
-    }
-  }
 
-  /**
-   * Kills the application and redirects to the 400 page.
-   */
-  public static function kill() {
-    header('Location: ' . conf('base_path') . '400');
-
-    exit();
+    return isset($this->segments[$index]) ? $this->segments[$index] : NULL;
   }
 
   /**
@@ -141,11 +111,6 @@ class Router {
     else {
       $this->uri = '';
     }
-
-    // Store the segments for future use and convenience.
-    self::segment(NULL, $this->uri);
-
-    $this->_parse_uri();
   }
 
   /**
@@ -158,6 +123,9 @@ class Router {
     // Remove the first empty element
     array_shift($uri);
 
+    // Store them
+    $this->segments = $uri;
+
     $this->arguments = array();
 
     // URI is empty
@@ -169,64 +137,26 @@ class Router {
       $this->method = 'index';
     }
     else {
+      // Get class
+      $this->class_name = $this->_class_name(array_shift($uri));
+
       // Only one segment
-      if (count($uri) == 1) {
-        // Get class
-        $this->class_name = $this->_class_name(array_shift($uri));
-
-        if (!load_file(conf('dir_controllers') . $this->class_name . conf('class_extension'))) {
-          if ($error_class = conf('404_handler')) {
-            $this->class_name = $error_class;
-
-            $this->method = 'index';
-          }
-          else {
-            $this->class_name = 'Error';
-
-            $this->method = 'error404';
-          }
-        }
-        else {
-          // Default method
-          $this->method = 'index';
-        }
+      if (empty($uri)) {
+        $this->method = 'index';
       }
       // More than one segment
       else {
-        // Get class
-        $this->class_name = $this->_class_name(array_shift($uri));
-
         // Get method
         $method = array_shift($uri);
+
         if (empty($method)) {
           $this->method = 'index';
-        }
-        elseif (!$this->method = $this->_method_name($method)) {
-          sys_error("Could not find method " . htmlentities($method) . " on class " . htmlentities($this->class_name));
-
-          if ($error_class = conf('404_handler')) {
-            $this->class_name = $error_class;
-
-            $this->method = 'index';
-          }
-          else {
-            $this->class_name = 'Error';
-
-            $this->method = 'error404';
-          }
         }
 
         // Get arguments and decode them from the url
         while ($arg = array_shift($uri)) {
           $this->arguments[] = urldecode($arg);
         }
-      }
-
-      // Make sure we capture 400 errors
-      if ($this->class_name == '400') {
-        $this->class_name = 'C_Error';
-
-        $this->method = 'error400';
       }
     }
   }
@@ -259,8 +189,7 @@ class Router {
    *        The method name.
    *
    * @return string|false
-   *        The method name, with - replaced by _. If the method was not found
-   *        on the class, returns FALSE
+   *        The method name, with - replaced by _. If the method is private, returns FALSE
    */
   protected function _method_name($string) {
     // Replace - with _
@@ -271,19 +200,6 @@ class Router {
       return FALSE;
     }
 
-    // Include the class definition
-    if (!load_file(conf('dir_controllers') . $this->class_name . conf('class_extension'))) {
-      return FALSE;
-    }
-
-    // Check if the method exists on the class
-    $methods = (array) @get_class_methods($this->class_name);
-
-    if (!empty($methods) && in_array($string, $methods)) {
-      return $string;
-    }
-    else {
-      return FALSE;
-    }
+    return $string;
   }
 }

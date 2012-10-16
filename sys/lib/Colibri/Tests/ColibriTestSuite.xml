@@ -1,0 +1,8 @@
+<phpunit>
+  <testsuites>
+    <testsuite name="ColibriTestCase">
+      <file>I18nRouterTest.php</file>
+      <file>RouterTest.php</file>
+    </testsuite>
+  </testsuites>
+</phpunit>
