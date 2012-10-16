@@ -22,6 +22,9 @@ if (!defined('COLIBRI_SYS_PATH')) {
   die("You are not allowed to access this script directly !");
 }
 
+require_once(COLIBRI_SYS_PATH . 'lib/Colibri/RouterInterface.php');
+
+
 class Router implements RouterInterface {
 
   /**
