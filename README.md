@@ -6,6 +6,16 @@ As most of the core is the routing functionality (see **Controlers** below), it 
 
 Colibri is licensed under the MIT licence.
 
+## SHOULD YOU USE THIS ?
+
+Probably not. It was an experiment, a simple proof-of-concept. I did use it in production, and it works very well. But, there are so many better alternatives out there ([Silex](http://silex.sensiolabs.org/) is my personal favorite).
+
+It's what prompted me to write [this blog post](http://wadmiraal.net/lore/2013/02/26/go-make-your-own-bloody-framework/).
+
+So, if you want to use it, go ahead. It's dead-simple, works very well, and is unit tested.
+
+But, I don't recommend it :-).
+
 
 ## Philosophy
 
